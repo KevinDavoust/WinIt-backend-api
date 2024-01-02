@@ -20,27 +20,24 @@ public class UserController {
     private final UserRepository userRepository;
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email, HttpServletRequest request) throws AccessDeniedException {
-        String username  = SecurityContextHolder.getContext().getAuthentication().getName();
-        String role  = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email, HttpServletRequest request)
+            throws AccessDeniedException {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 
         if (username.equals(email) || role.equals("[ROLE_ADMIN]")) {
             return ResponseEntity.ok(userRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("email " + email +" not found"))
-            );
+                    .orElseThrow(() -> new RuntimeException("email " + email + " not found")));
         } else {
             request.setAttribute("access_denied", "You do not have suffisant rights to access to this resource");
             throw new AccessDeniedException("User does not have the correct rights to access to this resource");
         }
-
-
-
     }
 
     @GetMapping("/all")
     public List<User> getAll(HttpServletRequest request) throws AccessDeniedException {
-        String role  = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        if(role.equals("[ROLE_ADMIN]")) {
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (role.equals("[ROLE_ADMIN]")) {
             return userRepository.findAll();
         } else {
             request.setAttribute("access_denied", "You do not have suffisant rights to access to this resource");
@@ -49,4 +46,3 @@ public class UserController {
         }
     }
 }
-

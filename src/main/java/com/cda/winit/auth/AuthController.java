@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService service;
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
+    public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request,
+            HttpServletRequest httpRequest) throws Exception {
         return ResponseEntity.ok(service.register(request, httpRequest));
     }
 
