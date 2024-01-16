@@ -19,7 +19,7 @@ public class UserLoginService {
     }
 
     public User login(User user) {
-        User userEntity = getUserEntityByUsername(user.getUsername());
+        User userEntity = getUserEntityByUsername(user.getEmail());
         if (!verifyHashedPasswordDuringLogin(user.getPassword(), userEntity.getPassword())){
             throw new RuntimeException();
         }
@@ -33,9 +33,9 @@ public class UserLoginService {
         return bcryptPasswordEncoder.matches(password, hashedPassword);
     }
 
-    public User getUserEntityByUsername(String username) {
+    public User getUserEntityByUsername(String email) {
         try {
-            return userRepository.findByUsername(username);
+            return userRepository.findByEmail(email);
         } catch (Exception e) {
             throw new RuntimeException();
         }
