@@ -10,8 +10,8 @@ public class UserMapper {
     public UserDto transformUserEntityInUserDto(User user, Boolean isForResponse) {
         UserDto userDTO = new UserDto();
         userDTO.setEmail(user.getEmail());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
+        userDTO.setFirstName(user.getFirstname());
+        userDTO.setLastName(user.getLastname());
         userDTO.setUsername(user.getUsername());
         userDTO.setEnabled(true);
         userDTO.setRoles(user.getRoles());

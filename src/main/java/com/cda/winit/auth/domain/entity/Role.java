@@ -18,7 +18,7 @@ public class Role {
     }
 
     public Role(String type) {
-        this.type = type; // ADMIN, USER, ...
+        this.type = type;
     }
 
     public Long getId() {
