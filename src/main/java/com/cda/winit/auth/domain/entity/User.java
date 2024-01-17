@@ -1,31 +1,21 @@
 package com.cda.winit.auth.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstname", nullable = false)
-    private String firstname;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
 
-    @Column(name = "lastname", nullable = false)
-
-    private String lastname;
-
-    @Column(name = "username", nullable = false, unique = true)
-
-    private String username;
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -35,6 +25,10 @@ public class User {
 
     @Column(name = "is_enabled", nullable = false)
     private Boolean isEnabled;
+
+    @Column(name = "created_At")
+    private LocalDateTime createdAt; // Modifiez le type de Date à LocalDateTime
+
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
@@ -48,28 +42,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getUsername() {
-        return email;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -94,6 +80,10 @@ public class User {
 
     public void setEnabled(Boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public Role getRoles() {

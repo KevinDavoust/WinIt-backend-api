@@ -24,22 +24,15 @@ public class UserTest {
     @Test
     public void testUserFirstname() {
         String firstname = "elea";
-        user.setFirstname(firstname);
-        assertEquals(firstname, user.getFirstname());
+        user.setFirstName(firstname);
+        assertEquals(firstname, user.getFirstName());
     }
 
     @Test
     public void testUserLastname() {
         String lastname = "voliotis";
-        user.setLastname(lastname);
-        assertEquals(lastname, user.getLastname());
-    }
-
-    @Test
-    public void testUserUsername() {
-        String username = "elea";
-        user.setUsername(username);
-        assertEquals(username, user.getUsername());
+        user.setLastName(lastname);
+        assertEquals(lastname, user.getLastName());
     }
 
     @Test

@@ -37,7 +37,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody User userBody) throws Exception {
         try {
             userLoginService.login(userBody);
-            String token = jwtTokenService.generateToken(userDetailsService.loadUserByUsername(userBody.getUsername()));
+            String token = jwtTokenService.generateToken(userDetailsService.loadUserByUsername(userBody.getEmail()));
 
             return ResponseEntity.ok(token);
         } catch (BadCredentialsException e){
