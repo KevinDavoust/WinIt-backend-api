@@ -1,7 +1,6 @@
 package com.cda.winit.auth.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 
 @Entity
 public class Role {
@@ -9,6 +8,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "type")
     private String type;
 
     public Role() {
