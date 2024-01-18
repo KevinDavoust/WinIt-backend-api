@@ -3,9 +3,8 @@ package com.cda.winit.auth.domain.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-
 @Entity
+@Table(name = "`user`")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +26,7 @@ public class User {
     private Boolean isEnabled;
 
     @Column(name = "created_At")
-    private LocalDateTime createdAt; // Modifiez le type de Date à LocalDateTime
+    private LocalDateTime createdAt;
 
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
