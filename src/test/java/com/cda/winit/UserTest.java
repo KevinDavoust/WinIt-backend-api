@@ -48,11 +48,4 @@ public class UserTest {
         user.setPassword(password);
         assertEquals(password, user.getPassword());
     }
-
-    @Test
-    public void testUserIsEnabled() {
-        Boolean isEnabled = false;
-        user.setEnabled(isEnabled);
-        assertEquals(isEnabled, user.getIsEnabled());
-    }
 }

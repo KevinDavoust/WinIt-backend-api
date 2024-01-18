@@ -5,6 +5,7 @@ import com.cda.winit.auth.domain.service.JwtTokenService;
 import com.cda.winit.auth.domain.service.UserDetailsServiceImpl;
 import com.cda.winit.auth.domain.service.UserLoginService;
 import com.cda.winit.auth.domain.service.UserRegistrationService;
+import com.cda.winit.auth.infrastructure.repository.exception.RegistrationErrorException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,17 +41,17 @@ public class AuthController {
             String token = jwtTokenService.generateToken(userDetailsService.loadUserByUsername(userBody.getEmail()));
 
             return ResponseEntity.ok(token);
-        } catch (BadCredentialsException e){
+        } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User userBody) throws Exception {
+    public ResponseEntity<?> register(@RequestBody User userBody) throws RegistrationErrorException {
         try {
             return ResponseEntity.status(201).body(userRegistrationService.UserRegistration(userBody));
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(400).build();
+        } catch (Exception e) {
+            throw new RegistrationErrorException(e.getMessage());
         }
     }
 }
