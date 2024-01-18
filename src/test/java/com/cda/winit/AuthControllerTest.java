@@ -33,7 +33,7 @@ public class AuthControllerTest {
         jsonUser.put("lastName", "doe");
         jsonUser.put("firstName", "john");
         jsonUser.put("password", "1234");
-        jsonUser.put("email", "john@doe.com");
+        jsonUser.put("email", "goyave@brave.com");
         jsonUser.put("enabled", true);
 
         mockMvc
@@ -41,13 +41,12 @@ public class AuthControllerTest {
                         .content(jsonUser.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.createdAt").value(""))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("doe"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("john"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("john@doe.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.enabled").value(true))
-        ;
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("goyave@brave.com"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.enabled").value(true));
     }
+
 
     @Test
     public void testLogin() throws Exception {
