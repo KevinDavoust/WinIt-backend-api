@@ -1,5 +1,6 @@
 package com.cda.winit.auth.application;
 
+import com.cda.winit.auth.domain.dto.JwtResponse;
 import com.cda.winit.auth.domain.entity.User;
 import com.cda.winit.auth.domain.service.JwtTokenService;
 import com.cda.winit.auth.domain.service.UserDetailsServiceImpl;
@@ -34,13 +35,26 @@ public class AuthController {
         this.userRegistrationService = userRegistrationService;
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User userBody) throws Exception {
         try {
             userLoginService.login(userBody);
             String token = jwtTokenService.generateToken(userDetailsService.loadUserByUsername(userBody.getEmail()));
 
             return ResponseEntity.ok(token);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }*/
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody User userBody) throws Exception {
+        try {
+            userLoginService.login(userBody);
+            String token = jwtTokenService.generateToken(userDetailsService.loadUserByUsername(userBody.getEmail()));
+
+            JwtResponse jwtResponse = new JwtResponse(token);
+
+            return ResponseEntity.ok(jwtResponse);
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
