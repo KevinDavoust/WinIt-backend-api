@@ -23,16 +23,16 @@ public class UserTest {
 
     @Test
     public void testUserFirstname() {
-        String firstname = "elea";
-        user.setFirstName(firstname);
-        assertEquals(firstname, user.getFirstName());
+        String firstName = "elea";
+        user.setFirstName(firstName);
+        assertEquals(firstName, user.getFirstName());
     }
 
     @Test
     public void testUserLastname() {
-        String lastname = "voliotis";
-        user.setLastName(lastname);
-        assertEquals(lastname, user.getLastName());
+        String lastName = "voliotis";
+        user.setLastName(lastName);
+        assertEquals(lastName, user.getLastName());
     }
 
     @Test

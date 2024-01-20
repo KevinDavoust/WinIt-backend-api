@@ -25,7 +25,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
     public Map<String, String> register(RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
 
         if (!repository.findByEmail(request.getEmail()).isPresent()) {
@@ -49,11 +48,9 @@ public class AuthService {
             httpRequest.setAttribute("username_taken_exception", "Username already taken");
             throw new Exception("Username already taken");
         }
-
     }
 
     public AuthResponse authenticate(AuthRequest request, HttpServletRequest httpRequest) {
-
 
         /* Permet de comparer le pwd reçu de la request reçue avec le pwd haché de la BDD.
          * La méthode authenticate() permet surtout de garantir que les informations d'identification sont exactes
@@ -87,6 +84,5 @@ public class AuthService {
             httpRequest.setAttribute("bad_credentials", ex.getMessage());
             throw new BadCredentialsException("Bad credentials");
         }
-
     }
 }

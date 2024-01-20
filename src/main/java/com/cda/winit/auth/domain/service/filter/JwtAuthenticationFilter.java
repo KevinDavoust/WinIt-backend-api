@@ -41,7 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             request.setAttribute("no_jwt_provided", "No JWT provided");
             filterChain.doFilter(request, response);
 
-
             return;
         }
 
@@ -82,6 +81,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         /* Une fois le traitement terminé, je passe au filtre suivant */
         filterChain.doFilter(request, response);
-
     }
 }
