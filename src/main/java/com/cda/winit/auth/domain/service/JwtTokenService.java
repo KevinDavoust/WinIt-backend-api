@@ -55,8 +55,7 @@ public class JwtTokenService {
                 .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                ;
+                .getBody();
     }
 
     public Date extractExpiration(String token) {

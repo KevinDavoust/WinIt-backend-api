@@ -35,9 +35,6 @@ public class UserController {
             request.setAttribute("access_denied", "You do not have suffisant rights to access to this resource");
             throw new AccessDeniedException("User does not have the correct rights to access to this resource");
         }
-
-
-
     }
 
     @GetMapping("/all")
@@ -48,7 +45,6 @@ public class UserController {
         } else {
             request.setAttribute("access_denied", "You do not have suffisant rights to access to this resource");
             throw new AccessDeniedException("User does not have the correct rights to access to this resource");
-
         }
     }
 }

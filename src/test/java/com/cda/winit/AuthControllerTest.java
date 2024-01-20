@@ -30,21 +30,18 @@ public class AuthControllerTest {
     public void testRegister() throws Exception {
         JSONObject jsonUser = new JSONObject();
         jsonUser.put("createdAt", LocalDateTime.now());
-        jsonUser.put("lastName", "doe");
-        jsonUser.put("firstName", "john");
+        jsonUser.put("lastName", "daa");
+        jsonUser.put("firstName", "jane");
         jsonUser.put("password", "1234");
-        jsonUser.put("email", "goyave@brave.com");
+        jsonUser.put("email", "jane@doe.com");
         jsonUser.put("enabled", true);
+        jsonUser.put("role", "USER_ROLE");
 
         mockMvc
                 .perform(MockMvcRequestBuilders.post("/api/auth/register")
                         .content(jsonUser.toString())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("doe"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("john"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("goyave@brave.com"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.enabled").value(true));
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 

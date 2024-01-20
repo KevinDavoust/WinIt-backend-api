@@ -1,6 +1,5 @@
 package com.cda.winit.auth.domain.service.util;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -63,7 +62,6 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY); /* Decode secret key */
         return Keys.hmacShaKeyFor(keyBytes); /* algorithm to decode our SECRET_KEY */
     }
-
 
     /* We need userDetails because we want to make sure that the token belongs to the right userDetails */
     public boolean isTokenValid(String token, UserDetails userDetails) {
