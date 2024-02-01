@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -49,4 +50,7 @@ public class Tournament {
         @ManyToOne
         @JoinColumn(name = "sport_id", nullable = false)
         private Sport sport;
+
+        @OneToMany(mappedBy = "tournament")
+        private List<Match> matches;
 }

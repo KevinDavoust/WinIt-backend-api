@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -17,14 +19,12 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "team_one_id", nullable = false)
-    private Long teamOneId;
+    @OneToMany(mappedBy = "match")
+    private List<MatchTeam> teams;
 
-    @Column(name = "team_two_id", nullable = false)
-    private Long teamTwoId;
-
-    @Column(name = "tournament_id", nullable = false)
-    private Long tournamentId;
+    @ManyToOne
+    @JoinColumn(name = "tournament_id", nullable = false)
+    private Tournament tournament;
 
     @Column(name = "is_draw")
     private Boolean isDraw;

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @Builder
@@ -26,5 +28,8 @@ public class Team {
     private Long roasterId;
 
     @Column(name = "is_validated")
-    private Boolean isValited;
+    private Boolean isValidated;
+
+    @OneToMany(mappedBy = "team")
+    private List<MatchTeam> matches;
 }
