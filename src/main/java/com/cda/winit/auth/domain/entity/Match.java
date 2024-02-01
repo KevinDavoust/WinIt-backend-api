@@ -19,9 +19,6 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "match")
-    private List<MatchTeam> teams;
-
     @ManyToOne
     @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
@@ -37,4 +34,7 @@ public class Match {
 
     @Column(name = "score")
     private String score;
+
+    @OneToMany(mappedBy = "match")
+    private List<MatchTeam> teams;
 }

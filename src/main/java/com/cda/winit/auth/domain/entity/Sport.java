@@ -18,11 +18,11 @@ public class Sport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "image_url", nullable = false)
-    private Long imageUrl;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "sport")
     private List<Tournament> tournaments;

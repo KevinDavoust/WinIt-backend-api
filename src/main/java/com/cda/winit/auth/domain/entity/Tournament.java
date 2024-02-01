@@ -33,7 +33,11 @@ public class Tournament {
         private String city;
 
         @Column(name = "number_of_participants", nullable = false)
-        private String numberOfParticipants;
+        private Long numberOfParticipants;
+
+        @ManyToOne
+        @JoinColumn(name = "sport_id", nullable = false)
+        private Sport sport;
 
         @Column(name = "level")
         private String level;
@@ -46,10 +50,6 @@ public class Tournament {
 
         @Column(name = "image_url")
         private String image_url;
-
-        @ManyToOne
-        @JoinColumn(name = "sport_id", nullable = false)
-        private Sport sport;
 
         @OneToMany(mappedBy = "tournament")
         private List<Match> matches;
