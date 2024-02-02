@@ -2,7 +2,7 @@ package com.cda.winit.tournament.application;
 
 import com.cda.winit.tournament.domain.entity.Tournament;
 import com.cda.winit.tournament.domain.service.TournamentService;
-import com.cda.winit.tournament.repository.TournamentRepository;
+import com.cda.winit.tournament.infrastructure.repository.TournamentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tournaments")
@@ -42,7 +41,7 @@ public class TournamentController {
 
         if (role.equals("[ROLE_ADMIN]") || role.equals("[ROLE_USER]")) {
             Tournament  tournament = tournamentService.getOneTournament(id);
-return tournament;
+            return tournament;
 
         } else {
             request.setAttribute("access_denied", "You do not have sufficient rights to access to this resource");

@@ -1,4 +1,4 @@
-package com.cda.winit.tournament.repository.exception;
+package com.cda.winit.tournament.infrastructure.repository.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

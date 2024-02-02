@@ -1,8 +1,8 @@
 package com.cda.winit.tournament.domain.service;
 
 import com.cda.winit.tournament.domain.entity.Tournament;
-import com.cda.winit.tournament.repository.TournamentRepository;
-import com.cda.winit.tournament.repository.exception.TournamentNotFoundException;
+import com.cda.winit.tournament.infrastructure.repository.TournamentRepository;
+import com.cda.winit.tournament.infrastructure.repository.exception.TournamentNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.cda.winit.tournament.domain.entity;
+package com.cda.winit.roaster.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
