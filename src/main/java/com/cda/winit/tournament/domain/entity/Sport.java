@@ -1,5 +1,6 @@
-package com.cda.winit.auth.domain.entity;
+package com.cda.winit.tournament.domain.entity;
 
+import com.cda.winit.auth.domain.entity.Tournament;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

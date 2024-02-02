@@ -30,8 +30,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configure(http))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
-                        .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
-                        .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
+                        .requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/tournaments/:id").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // You can disable csrf protection by removing this line
