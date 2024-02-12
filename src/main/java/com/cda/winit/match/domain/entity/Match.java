@@ -1,13 +1,12 @@
 package com.cda.winit.match.domain.entity;
 
 import com.cda.winit.tournament.domain.entity.Tournament;
+import com.cda.winit.team.domain.entity.Team;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Data
@@ -24,6 +23,14 @@ public class Match {
     @JoinColumn(name = "tournament_id", nullable = false)
     private Tournament tournament;
 
+    @ManyToOne
+    @JoinColumn(name = "team1_id", nullable = false)
+    private Team team1;
+
+    @ManyToOne
+    @JoinColumn(name = "team2_id", nullable = false)
+    private Team team2;
+
     @Column(name = "is_draw")
     private Boolean isDraw;
 
@@ -35,7 +42,4 @@ public class Match {
 
     @Column(name = "score")
     private String score;
-
-    @OneToMany(mappedBy = "match")
-    private List<MatchTeam> teams;
 }

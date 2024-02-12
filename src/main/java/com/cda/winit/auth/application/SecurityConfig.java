@@ -30,7 +30,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configure(http))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
-                        .requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/tournaments/all").permitAll()
+                        //.requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                         .requestMatchers("/api/tournaments/:id").permitAll()
                         .anyRequest().authenticated()
                 )
