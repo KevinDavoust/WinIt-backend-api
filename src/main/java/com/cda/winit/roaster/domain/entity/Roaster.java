@@ -11,11 +11,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Roaster {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Roaster {    @Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "sport_id", nullable = false)
+    private Long sport_id;
+
+    @Column(name = "is_validated")
+    private Boolean isValidated;
+
 }
