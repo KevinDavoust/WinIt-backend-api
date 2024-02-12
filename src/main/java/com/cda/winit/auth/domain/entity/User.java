@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -44,8 +45,17 @@ public class User implements UserDetails {
     @Column(name = "created_At")
     private LocalDateTime createdAt;
 
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "role")
     private String role;
+
+    @Column(name = "roaster_id")
+    private Long roasterId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
