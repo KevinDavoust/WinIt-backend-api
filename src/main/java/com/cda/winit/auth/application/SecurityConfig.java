@@ -1,6 +1,5 @@
 package com.cda.winit.auth.application;
 
-import com.cda.winit.auth.domain.entity.enumeration.Role;
 import com.cda.winit.auth.domain.service.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
                         .requestMatchers("/api/tournaments/all").permitAll()
+                        .requestMatchers("/api/sports/all").permitAll()
                         //.requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                         .requestMatchers("/api/tournaments/:id").permitAll()
                         .anyRequest().authenticated()

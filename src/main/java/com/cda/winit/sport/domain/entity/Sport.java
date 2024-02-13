@@ -25,6 +25,9 @@ public class Sport {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @Column(name = "number_of_players", nullable = false)
+    private Long numberOfPlayers;
+
     @OneToMany(mappedBy = "sport")
     private List<Tournament> tournaments;
 }
