@@ -1,5 +1,6 @@
 package com.cda.winit.auth.application;
 
+import com.cda.winit.auth.domain.entity.enumeration.Role;
 import com.cda.winit.auth.domain.service.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,10 +29,12 @@ public class SecurityConfig {
                 .cors(cors -> cors.configure(http))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
-                        .requestMatchers("/api/tournaments/all").permitAll()
                         .requestMatchers("/api/sports/all").permitAll()
-                        //.requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/tournaments/all").permitAll()
                         .requestMatchers("/api/tournaments/:id").permitAll()
+                        .requestMatchers("/api/roasters/add").hasAnyRole(Role.USER.name())
+                        //.requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+
                         .anyRequest().authenticated()
                 )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // You can disable csrf protection by removing this line
