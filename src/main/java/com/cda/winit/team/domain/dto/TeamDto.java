@@ -1,9 +1,9 @@
-package com.cda.winit.roaster.domain.dto;
+package com.cda.winit.team.domain.dto;
 
 import lombok.Data;
 
 @Data
-public class RoasterDto {
+public class TeamDto {
     private String name;
     private String sport;
 }

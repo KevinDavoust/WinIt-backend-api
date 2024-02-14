@@ -27,16 +27,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configure(http))
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
-                        .requestMatchers("/api/sports/all").permitAll()
-                        .requestMatchers("/api/tournaments/all").permitAll()
-                        .requestMatchers("/api/tournaments/:id").permitAll()
-                        .requestMatchers("/api/roasters/add").hasAnyRole(Role.USER.name())
-                        //.requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-
-                        .anyRequest().authenticated()
-                )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // You can disable csrf protection by removing this line
                         .ignoringRequestMatchers("/register", "/login")
                         .disable()  // Décommentez pour désactiver en entier la protection CSRF en développement
@@ -44,10 +34,19 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)//
                 )
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
+                        .requestMatchers("/api/sports/**").permitAll()
+                        .requestMatchers("/api/tournaments/all").permitAll()
+                        .requestMatchers("/api/tournaments/:id").permitAll()
+                        .requestMatchers("/api/roasters/add").hasAnyRole(Role.USER.name())
+                        .anyRequest().authenticated()
+                )
+
                 .exceptionHandling((exception) ->  exception
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler)
-        )
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
                 .authenticationProvider(authenticationProvider)
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

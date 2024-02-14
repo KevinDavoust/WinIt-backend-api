@@ -1,4 +1,4 @@
-package com.cda.winit.roaster.domain.entity;
+package com.cda.winit.team.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Roaster {    @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
+public class Team {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
@@ -23,5 +25,4 @@ private Long id;
 
     @Column(name = "is_validated")
     private Boolean isValidated;
-
 }

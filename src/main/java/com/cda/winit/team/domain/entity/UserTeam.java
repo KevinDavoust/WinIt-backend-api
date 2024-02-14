@@ -1,7 +1,6 @@
-package com.cda.winit.roaster.domain.entity;
+package com.cda.winit.team.domain.entity;
 
 import com.cda.winit.auth.domain.entity.User;
-import com.cda.winit.sport.domain.entity.Sport;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "`user_roaster`")
-public class UserRoaster {
+@Table(name = "`user_team`")
+public class UserTeam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +23,6 @@ public class UserRoaster {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "roaster_id", nullable = false)
-    private Roaster roaster;
+    @JoinColumn(name = "team_id", nullable = false)
+    private Team team;
 }

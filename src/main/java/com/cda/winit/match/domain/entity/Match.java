@@ -1,6 +1,6 @@
 package com.cda.winit.match.domain.entity;
 
-import com.cda.winit.roaster.domain.entity.Roaster;
+import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.tournament.domain.entity.Tournament;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,12 +24,12 @@ public class Match {
     private Tournament tournament;
 
     @ManyToOne
-    @JoinColumn(name = "roaster1_id", nullable = false)
-    private Roaster roaster1;
+    @JoinColumn(name = "team1_id", nullable = false)
+    private Team team1;
 
     @ManyToOne
-    @JoinColumn(name = "roaster2_id", nullable = false)
-    private Roaster roaster2;
+    @JoinColumn(name = "team2_id", nullable = false)
+    private Team team2;
 
     @Column(name = "is_draw")
     private Boolean isDraw;
