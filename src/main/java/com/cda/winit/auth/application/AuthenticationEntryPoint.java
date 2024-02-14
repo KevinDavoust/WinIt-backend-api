@@ -27,7 +27,6 @@ public class AuthenticationEntryPoint implements org.springframework.security.we
 
         Map<String, String> error = new HashMap<>();
 
-
         if (request.getAttribute("expired_exception") != null) {
             error.put("is_token_expired", "true");
             error.put("error_message", "JWT has expired. Please log in again.");

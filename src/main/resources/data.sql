@@ -1,10 +1,10 @@
 /*INSERT TO TABLE SPORT */
-INSERT INTO sport (name, image_url)
-VALUES ('Football', 'https://example.com/sport_image.jpg');
-INSERT INTO sport (name, image_url)
-VALUES ('Volley', 'https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-INSERT INTO sport (name, image_url)
-VALUES ('Rugby', 'https://images.pexels.com/photos/3639065/pexels-photo-3639065.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+INSERT INTO sport (name, image_url, number_of_players)
+VALUES ('Football', 'https://example.com/sport_image.jpg', 11);
+INSERT INTO sport (name, image_url, number_of_players)
+VALUES ('Volley', 'https://images.pexels.com/photos/1263426/pexels-photo-1263426.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 6);
+INSERT INTO sport (name, image_url, number_of_players)
+VALUES ('Rugby', 'https://images.pexels.com/photos/3639065/pexels-photo-3639065.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 15);
 
 /*INSERT TO TABLE TEAM */
 INSERT INTO team (name, sport_id)

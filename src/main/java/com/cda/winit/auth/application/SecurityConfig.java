@@ -13,7 +13,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -28,13 +27,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configure(http))
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
-                        .requestMatchers("/api/tournaments/all").permitAll()
-                        //.requestMatchers("/api/tournaments/all").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
-                        .requestMatchers("/api/tournaments/:id").permitAll()
-                        .anyRequest().authenticated()
-                )
                 .csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // You can disable csrf protection by removing this line
                         .ignoringRequestMatchers("/register", "/login")
                         .disable()  // Décommentez pour désactiver en entier la protection CSRF en développement
@@ -42,10 +34,19 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)//
                 )
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
+                        .requestMatchers("/api/sports/**").permitAll()
+                        .requestMatchers("/api/tournaments/all").permitAll()
+                        .requestMatchers("/api/tournaments/:id").permitAll()
+                        .requestMatchers("/api/roasters/add").hasAnyRole(Role.USER.name())
+                        .anyRequest().authenticated()
+                )
+
                 .exceptionHandling((exception) ->  exception
-                .authenticationEntryPoint(authenticationEntryPoint)
-                .accessDeniedHandler(accessDeniedHandler)
-        )
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
+                )
                 .authenticationProvider(authenticationProvider)
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
