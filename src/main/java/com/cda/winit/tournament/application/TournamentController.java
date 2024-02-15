@@ -24,7 +24,7 @@ public class TournamentController {
 
     private final TournamentService tournamentService;
     private final TournamentRepository tournamentRepository;
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<List<Tournament>> getAll(HttpServletRequest request) {
         try {
             List<Tournament> tournaments = tournamentRepository.findAll();
