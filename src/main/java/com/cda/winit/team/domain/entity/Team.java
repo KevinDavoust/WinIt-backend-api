@@ -23,6 +23,9 @@ public class Team {
     @Column(name = "sport_id", nullable = false)
     private Long sport_id;
 
+    @Column(name = "lead_team_id", nullable = false)
+    private Long leadTeamId;
+
     @Column(name = "is_validated")
     private Boolean isValidated;
 }
