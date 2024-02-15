@@ -14,7 +14,7 @@ import java.util.List;
 public class SportController {
 
     private final SportService sportService;
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<SportDto> listSport() {
         return sportService.findAllSport();
     }

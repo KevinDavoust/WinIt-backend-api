@@ -37,7 +37,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<User> getAll(HttpServletRequest request) throws AccessDeniedException {
         String role  = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if(role.equals("[ROLE_ADMIN]")) {
