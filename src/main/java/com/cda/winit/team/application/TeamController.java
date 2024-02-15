@@ -1,7 +1,5 @@
 package com.cda.winit.team.application;
 
-import com.cda.winit.auth.domain.entity.User;
-import com.cda.winit.auth.infrastructure.repository.UserRepository;
 import com.cda.winit.team.domain.dto.TeamDto;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.TeamService;
@@ -25,19 +23,19 @@ public class TeamController {
     private final TeamService teamService;
     private final UserTeamService userTeamService;
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<?> listTeamsCreatedByUser() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-            List<Team> teams = teamService.listTeamsCreatedByUser(username);
+            List<TeamDto> teams = teamService.listTeamsCreatedByUser(username);
             return ResponseEntity.ok().body(teams);
         } catch (ListTeamByUserAlreadyExistsException ex) {
             return ResponseEntity.badRequest().body("L'utilisateur le possède pas d'équipe.");
         }
     }
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<Object> createTeam(@RequestBody TeamDto teamDto) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
