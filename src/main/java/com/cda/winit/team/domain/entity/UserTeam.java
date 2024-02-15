@@ -1,6 +1,6 @@
 package com.cda.winit.team.domain.entity;
 
-import com.cda.winit.auth.domain.entity.User;
+import com.cda.winit.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
