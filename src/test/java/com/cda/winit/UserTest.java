@@ -1,6 +1,6 @@
 package com.cda.winit;
 
-import com.cda.winit.auth.domain.entity.User;
+import com.cda.winit.user.domain.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

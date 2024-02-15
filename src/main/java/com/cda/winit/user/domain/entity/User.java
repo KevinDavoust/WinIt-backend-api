@@ -1,4 +1,4 @@
-package com.cda.winit.auth.domain.entity;
+package com.cda.winit.user.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

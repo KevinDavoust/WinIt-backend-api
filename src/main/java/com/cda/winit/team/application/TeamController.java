@@ -1,7 +1,5 @@
 package com.cda.winit.team.application;
 
-import com.cda.winit.auth.domain.entity.User;
-import com.cda.winit.auth.infrastructure.repository.UserRepository;
 import com.cda.winit.team.domain.dto.TeamDto;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.TeamService;
