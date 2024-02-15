@@ -1,6 +1,6 @@
-package com.cda.winit.auth.infrastructure.repository;
+package com.cda.winit.user.infrastructure.repository;
 
-import com.cda.winit.auth.domain.entity.User;
+import com.cda.winit.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

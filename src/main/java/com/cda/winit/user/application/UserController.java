@@ -1,8 +1,8 @@
-package com.cda.winit.auth.application;
+package com.cda.winit.user.application;
 
 
-import com.cda.winit.auth.domain.entity.User;
-import com.cda.winit.auth.infrastructure.repository.UserRepository;
+import com.cda.winit.user.domain.entity.User;
+import com.cda.winit.user.infrastructure.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<User> getAll(HttpServletRequest request) throws AccessDeniedException {
         String role  = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         if(role.equals("[ROLE_ADMIN]")) {

@@ -1,6 +1,6 @@
 package com.cda.winit.auth.application;
 
-import com.cda.winit.auth.infrastructure.repository.UserRepository;
+import com.cda.winit.user.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
