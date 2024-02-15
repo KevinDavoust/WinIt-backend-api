@@ -54,8 +54,8 @@ public class User implements UserDetails {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "roaster_id")
-    private Long roasterId;
+    @Column(name = "team_id")
+    private Long teamId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
