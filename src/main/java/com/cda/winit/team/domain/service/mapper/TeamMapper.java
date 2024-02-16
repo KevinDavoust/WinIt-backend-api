@@ -36,7 +36,7 @@ public class TeamMapper {
     public TeamDto toDto(Team team) {
         TeamDto teamDto = new TeamDto();
         teamDto.setName(team.getName());
-        teamDto.setSport(sportService.findSportNameById(team.getSport_id())); // Assurez-vous que findSportNameById retourne le nom du sport
+        teamDto.setSport(sportService.findSportNameById(team.getSport_id()));
         return teamDto;
     }
 }
