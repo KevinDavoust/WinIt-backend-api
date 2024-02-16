@@ -26,4 +26,13 @@ public class SportService {
         Optional<Sport> optionalSport = sportRepository.findByName(sportName);
         return optionalSport.map(Sport::getId).orElse(null);
     }
+
+    public String findSportNameById(Long sportId) {
+        Optional<Sport> sport = sportRepository.findById(sportId);
+        if (sport.isPresent()) {
+            return sport.get().getName();
+        } else {
+            throw new RuntimeException("Sport not found with id: " + sportId);
+        }
+    }
 }
