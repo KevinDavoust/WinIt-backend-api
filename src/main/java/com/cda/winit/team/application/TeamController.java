@@ -23,7 +23,7 @@ public class TeamController {
     private final TeamService teamService;
     private final UserTeamService userTeamService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> listTeamsCreatedByUser() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -36,7 +36,7 @@ public class TeamController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<Object> createTeam(@RequestBody TeamDto teamDto) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
