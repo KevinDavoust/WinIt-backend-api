@@ -26,4 +26,9 @@ public class SportService {
         Optional<Sport> optionalSport = sportRepository.findByName(sportName);
         return optionalSport.map(Sport::getId).orElse(null);
     }
+
+    public void saveSport(Sport sport) {
+        sportRepository.save(sport);
+    }
+
 }
