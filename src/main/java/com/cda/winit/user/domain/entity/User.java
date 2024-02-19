@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "city")
+    private String city;
+
     @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
@@ -44,6 +47,9 @@ public class User implements UserDetails {
 
     @Column(name = "created_At")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_At")
+    private LocalDateTime updatedAt;
 
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
