@@ -36,6 +36,22 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/{teamName}")
+    public ResponseEntity<?> teamByTeamName(@PathVariable String teamName) {
+        try {
+            TeamDto team = teamService.getTeamByName(teamName);
+
+            if (team != null) {
+                return ResponseEntity.ok().body(team);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la récupération de l'équipe.");
+        }
+    }
+
+
     @PostMapping
     public ResponseEntity<Object> createTeam(@RequestBody TeamDto teamDto) {
         try {

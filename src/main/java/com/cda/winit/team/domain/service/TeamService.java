@@ -36,6 +36,13 @@ public class TeamService {
         return teamDtos;
     }
 
+    public TeamDto getTeamByName(String teamName) {
+
+        Team team = teamRepository.findTeamByName(teamName)
+                .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
+
+        return teamMapper.toDto(team);
+    }
     public void saveTeam(Team team) {
         teamRepository.save(team);
     }
