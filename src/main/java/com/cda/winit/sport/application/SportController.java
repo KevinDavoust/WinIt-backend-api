@@ -1,5 +1,6 @@
 package com.cda.winit.sport.application;
 
+import com.cda.winit.shared.ImageUploadService;
 import com.cda.winit.sport.domain.dto.SportDto;
 import com.cda.winit.sport.domain.entity.Sport;
 import com.cda.winit.sport.domain.service.SportService;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/sports")
@@ -23,7 +25,7 @@ import java.util.List;
 public class SportController {
 
     private final SportService sportService;
-    private final Environment env;
+    private final ImageUploadService imageUploadService;
 
     @GetMapping("/")
     public List<SportDto> listSport() {
@@ -36,17 +38,16 @@ public class SportController {
             throw new RuntimeException("Please load a file");
         }
         try {
-            Path path = Paths.get(env.getProperty("spring.servlet.multipart.location") + file.getOriginalFilename());
+            String UUID = imageUploadService.generateUUID();
+            Path path = imageUploadService.getPath(UUID, file);
 
             Sport sport = new Sport();
-            sport.setImageUrl(String.valueOf(path));
+            sport.setImageUrl(UUID + file.getOriginalFilename());
             sport.setName(name);
             sport.setNumberOfPlayers(numberOfPlayers);
             sportService.saveSport(sport);
 
-            byte[] bytes = file.getBytes();
-
-            Files.write(path, bytes);
+            imageUploadService.saveImage(path, file);
 
             return ResponseEntity.ok().body(Collections.singletonMap("message", "Le sport a bien été enregistré"));
         } catch (IOException e) {
