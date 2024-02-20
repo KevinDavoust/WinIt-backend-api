@@ -31,5 +31,13 @@ public class SportService {
     public void saveSport(Sport sport) {
         sportRepository.save(sport);
     }
-
+  
+    public String findSportNameById(Long sportId) {
+        Optional<Sport> sport = sportRepository.findById(sportId);
+        if (sport.isPresent()) {
+            return sport.get().getName();
+        } else {
+            throw new RuntimeException("Sport not found with id: " + sportId);
+        }
+    }
 }
