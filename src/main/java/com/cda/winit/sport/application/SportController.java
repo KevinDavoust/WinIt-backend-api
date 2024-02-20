@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -40,9 +41,10 @@ public class SportController {
         try {
             String UUID = imageUploadService.generateUUID();
             Path path = imageUploadService.getPath(UUID, file);
+            String cleanFileName = imageUploadService.cleanOriginalFileName(Objects.requireNonNull(file.getOriginalFilename()));
 
             Sport sport = new Sport();
-            sport.setImageUrl(UUID + file.getOriginalFilename());
+            sport.setImageUrl(UUID + cleanFileName);
             sport.setName(name);
             sport.setNumberOfPlayers(numberOfPlayers);
             sportService.saveSport(sport);
