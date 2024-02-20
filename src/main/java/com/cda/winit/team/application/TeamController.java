@@ -1,5 +1,6 @@
 package com.cda.winit.team.application;
 
+import com.cda.winit.team.domain.dto.MemberDto;
 import com.cda.winit.team.domain.dto.TeamDto;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.TeamService;
@@ -51,6 +52,15 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/{teamName}/members")
+    public ResponseEntity<?> memberByTeam(@PathVariable String teamName) {
+        try {
+           //List<MemberDto> members = teamService.getMembersAndLeadByTeam(teamName);
+            return ResponseEntity.ok().body("members");
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la récupération de l'équipe.");
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Object> createTeam(@RequestBody TeamDto teamDto) {
