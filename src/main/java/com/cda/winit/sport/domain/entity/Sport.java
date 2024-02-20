@@ -26,8 +26,9 @@ public class Sport {
     private String imageUrl;
 
     @Column(name = "number_of_players", nullable = false)
-    private Long numberOfPlayers;
+    private int numberOfPlayers;
 
     @OneToMany(mappedBy = "sport")
     private List<Tournament> tournaments;
+
 }
