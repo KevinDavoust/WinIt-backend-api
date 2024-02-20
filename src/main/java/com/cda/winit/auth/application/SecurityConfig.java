@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/sports/**").permitAll()
                         .requestMatchers("/api/tournaments/all").permitAll()
                         .requestMatchers("/api/tournaments/:id").permitAll()
-                        .requestMatchers("/api/roasters/add").hasAnyRole(Role.USER.name())
+                        .requestMatchers("/api/teams/**").hasAnyRole(Role.USER.name())
                         .anyRequest().authenticated()
                 )
 
