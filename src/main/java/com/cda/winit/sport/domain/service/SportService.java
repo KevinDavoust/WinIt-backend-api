@@ -14,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SportService {
 
+
     private final SportRepository sportRepository;
     private final SportMapper sportMapper;
     public List<SportDto> findAllSport() {
@@ -27,6 +28,10 @@ public class SportService {
         return optionalSport.map(Sport::getId).orElse(null);
     }
 
+    public void saveSport(Sport sport) {
+        sportRepository.save(sport);
+    }
+  
     public String findSportNameById(Long sportId) {
         Optional<Sport> sport = sportRepository.findById(sportId);
         if (sport.isPresent()) {
