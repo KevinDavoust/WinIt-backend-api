@@ -1,8 +1,6 @@
 package com.cda.winit.team.domain.service;
 
 import com.cda.winit.team.domain.dto.MemberDto;
-import com.cda.winit.team.domain.entity.UserTeam;
-import com.cda.winit.team.repository.UserTeamRepository;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
 import com.cda.winit.team.domain.dto.TeamDto;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +48,20 @@ public class TeamService {
     }
     public void saveTeam(Team team) {
         teamRepository.save(team);
+    }
+
+    public boolean verifyTeamLead(String teamName, String username) {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("User not found with name: " + username));
+
+        Team team = teamRepository.findTeamByName(teamName)
+                .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
+
+        if (user != null && team != null) {
+            return Objects.equals(user.getId(), team.getLeadTeamId());
+        } else {
+            return false;
+        }
     }
 
     public List<MemberDto> memberByTeam(String teamName) {

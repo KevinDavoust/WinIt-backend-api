@@ -2,6 +2,7 @@ package com.cda.winit.team.domain.service;
 
 import com.cda.winit.team.domain.dto.MemberDto;
 import com.cda.winit.team.domain.service.mapper.MemberMapper;
+import com.cda.winit.team.repository.exception.TeamServiceException;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
 import com.cda.winit.team.domain.entity.Team;
@@ -38,15 +39,16 @@ public class UserTeamService {
 
     public void createMember(String teamName, MemberDto memberDto) {
         Team team = teamRepository.findTeamByName(teamName)
-                .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
-
-        System.out.println(teamName);
-
+                .orElseThrow(() -> new TeamServiceException("Team not found with name: " + teamName));
 
         User user = userRepository.findByFirstName(memberDto.getName())
-                .orElseThrow(() -> new RuntimeException("User not found with firstname: " + memberDto.getName()));
+                .orElseThrow(() -> new TeamServiceException("User not found with name: " + memberDto.getName()));
 
-        System.out.println(user);
+        boolean isMember = userTeamRepository.existsByUserAndTeam(user, team);
+
+        if (isMember) {
+            throw new TeamServiceException("L'utilisateur appartient déjà à cette équipe.");
+        }
 
         UserTeam userTeam = new UserTeam();
         userTeam.setUser(user);

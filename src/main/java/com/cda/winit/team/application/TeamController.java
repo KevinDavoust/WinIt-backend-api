@@ -7,8 +7,8 @@ import com.cda.winit.team.domain.service.TeamService;
 import com.cda.winit.team.domain.service.UserTeamService;
 import com.cda.winit.team.repository.exception.ListTeamByUserAlreadyExistsException;
 import com.cda.winit.team.repository.exception.TeamNameAlreadyExistsException;
+import com.cda.winit.team.repository.exception.TeamServiceException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,10 +83,21 @@ public class TeamController {
     @PostMapping("/{teamName}/members")
     public ResponseEntity<Object> createMember(@PathVariable String teamName, @RequestBody MemberDto memberDto) {
         try {
-            userTeamService.createMember(teamName, memberDto);
-            return ResponseEntity.ok().body(Collections.singletonMap("message", "Le membre a bien été enregistré dans l'équipe"));
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de l'inscription du membre dans l'équipe.");
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+
+            boolean isTeamLead = teamService.verifyTeamLead(teamName, username);
+
+            if (isTeamLead) {
+                userTeamService.createMember(teamName, memberDto);
+                return ResponseEntity.ok().body(Collections.singletonMap("message", "Le membre a bien été enregistré dans l'équipe"));
+            } else {
+                return ResponseEntity.badRequest().body("Vous n'êtes pas autorisé à ajouter un membre à cette équipe.");
+            }
+        } catch (TeamServiceException ex) {
+            return ResponseEntity.badRequest().body("Erreur : " + ex.getMessage());
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de l'inscription du membre dans l'équipe : " + ex.getMessage());
         }
     }
 }
