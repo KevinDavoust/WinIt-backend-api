@@ -40,4 +40,13 @@ public class SportService {
             throw new RuntimeException("Sport not found with id: " + sportId);
         }
     }
+
+    public int findSportNumberPlayer(Long sportId) {
+        Optional<Sport> sport = sportRepository.findById(sportId);
+        if (sport.isPresent()) {
+            return sport.get().getNumberOfPlayers();
+        } else {
+            throw new RuntimeException("Sport not found with id: " + sportId);
+        }
+    }
 }

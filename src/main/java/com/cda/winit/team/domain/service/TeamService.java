@@ -22,7 +22,7 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
     private final TeamMapper teamMapper;
-    private final UserTeamRepository userTeamRepository;
+    private final UserTeamService userTeamService;
 
     public Team mapTeamDTOToEntity(TeamDto teamDto, String username) {
         return teamMapper.toEntity(teamDto, username);
@@ -51,27 +51,10 @@ public class TeamService {
         teamRepository.save(team);
     }
 
-   /* public List<MemberDto> getMembersAndLeadByTeam(String teamName) {
+    public List<MemberDto> memberByTeam(String teamName) {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
 
-        List<UserTeam> userTeams = userTeamRepository.findByTeam(team);
-
-        List<MemberDto> members = new ArrayList<>();
-        for (UserTeam userTeam : userTeams) {
-            MemberDto memberDto = new MemberDto();
-            memberDto.setName(userTeam.getUser().getName());
-            members.add(memberDto);
-        }
-
-        MemberDto leaderDto = new MemberDto();
-        User leader = userRepository.findById(team.getLeadTeamId())
-                .orElseThrow(() -> new RuntimeException("Leader not found for team: " + teamName));
-        leaderDto.setName(leader.getName());
-        // Vous pouvez également ajouter le rôle du leader ici
-        // leaderDto.setRole("Leader");
-        members.add(leaderDto);
-
-        return members;
-    } */
+        return userTeamService.getAllMemberByTeamId(team.getId());
+    }
 }

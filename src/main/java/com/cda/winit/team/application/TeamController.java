@@ -8,6 +8,7 @@ import com.cda.winit.team.domain.service.UserTeamService;
 import com.cda.winit.team.repository.exception.ListTeamByUserAlreadyExistsException;
 import com.cda.winit.team.repository.exception.TeamNameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,10 +56,10 @@ public class TeamController {
     @GetMapping("/{teamName}/members")
     public ResponseEntity<?> memberByTeam(@PathVariable String teamName) {
         try {
-           //List<MemberDto> members = teamService.getMembersAndLeadByTeam(teamName);
-            return ResponseEntity.ok().body("members");
+            List<MemberDto> members = teamService.memberByTeam(teamName);
+            return ResponseEntity.ok(members);
         } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la récupération de l'équipe.");
+            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la récupération des membres de l'équipe.");
         }
     }
 
@@ -76,6 +77,16 @@ public class TeamController {
             return ResponseEntity.ok().body(Collections.singletonMap("message", "L'équipe a bien été enregistrée"));
         } catch (TeamNameAlreadyExistsException ex) {
             return ResponseEntity.badRequest().body("Le nom de l'équipe est déjà pris");
+        }
+    }
+
+    @PostMapping("/{teamName}/members")
+    public ResponseEntity<Object> createMember(@PathVariable String teamName, @RequestBody MemberDto memberDto) {
+        try {
+            userTeamService.createMember(teamName, memberDto);
+            return ResponseEntity.ok().body(Collections.singletonMap("message", "Le membre a bien été enregistré dans l'équipe"));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de l'inscription du membre dans l'équipe.");
         }
     }
 }
