@@ -66,7 +66,7 @@ public class Tournament {
 
         @ManyToOne
         @JoinColumn(name = "sport_id", nullable = false)
-        private Sport sports;
+        private Sport sport;
 
         @Column(name = "created_At", nullable = false)
         private LocalDateTime createdAt;

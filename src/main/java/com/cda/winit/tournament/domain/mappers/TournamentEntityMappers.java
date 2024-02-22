@@ -42,7 +42,7 @@ public class TournamentEntityMappers {
         entity.setCreatedAt(LocalDateTime.now());
 
         Optional<Sport> sport = sportRepository.findByName(model.getSportName());
-        entity.setSports(sport.orElseThrow());
+        entity.setSport(sport.orElseThrow());
 
         String imageUrl = !model.getTournamentBanner().isEmpty() ?
                 imageUploadService.generateImageUrlAndSaveImage(model.getTournamentBanner()) :
