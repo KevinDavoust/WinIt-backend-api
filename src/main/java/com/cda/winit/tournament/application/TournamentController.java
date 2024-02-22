@@ -27,7 +27,7 @@ public class TournamentController {
     @PostMapping(value = "/create")
     public ResponseEntity<?> create(
             @ModelAttribute TournamentCreationDto tournamentCreationDto) {
-        
+
         try {
             Tournament tournament = tournamentService.createTournament(tournamentCreationDto);
             return ResponseEntity.ok(tournament);
