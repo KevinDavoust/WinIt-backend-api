@@ -25,34 +25,52 @@ public class Tournament {
         @Column(name = "name", nullable = false)
         private String name;
 
-        @Column(name = "created_At", nullable = false)
-        private LocalDateTime createdAt;
+        @Column(name = "date", nullable = false)
+        private Date date;
 
         @Column(name = "inscription_limit_date", nullable = false)
         private Date inscriptionLimitDate;
 
-        @Column(name = "city", nullable = false)
-        private String city;
+        @Column(name = "place", nullable = false)
+        private String place;
 
-        @Column(name = "number_of_participants", nullable = false)
-        private Long numberOfParticipants;
+        @Column(name = "current_number_of_participants")
+        private Long currentNumberOfParticipants;
 
-        @ManyToOne
-        @JoinColumn(name = "sport_id", nullable = false)
-        private Sport sport;
+        @Column(name = "players_per_team", nullable = false)
+        private int playersPerTeam;
 
-        @Column(name = "level")
-        private String level;
+        @Column(name = "min_number_of_teams")
+        private int minNumberOfTeams;
 
-        @Column(name = "type")
-        private String type;
+        @Column(name = "max_number_of_teams", nullable = false)
+        private int maxNumberOfTeams;
+
+        @Column(name = "game_length", nullable = false)
+        private int gameLength;
+
+        @Column(name = "player_category")
+        private String playerCategory;
+
+        @Column(name = "privacy")
+        private String privacy;
 
         @Column(name = "format")
         private String format;
 
         @Column(name = "image_url")
-        private String image_url;
+        private String imageUrl;
 
         @OneToMany(mappedBy = "tournament")
         private List<Match> matches;
+
+        @ManyToOne
+        @JoinColumn(name = "sport_id", nullable = false)
+        private Sport sports;
+
+        @Column(name = "created_At", nullable = false)
+        private LocalDateTime createdAt;
+
+        @Column(name = "updated_at")
+        private LocalDateTime updatedAt;
 }
