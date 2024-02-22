@@ -100,4 +100,25 @@ public class TeamController {
             return ResponseEntity.badRequest().body("Une erreur s'est produite lors de l'inscription du membre dans l'équipe : " + ex.getMessage());
         }
     }
+
+    @DeleteMapping("/{teamName}/members/{memberName}")
+    public ResponseEntity<?> deletedMember(@PathVariable String teamName, @PathVariable String memberName) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+
+            boolean isTeamLead = teamService.verifyTeamLead(teamName, username);
+
+            if (isTeamLead) {
+                userTeamService.deleteMember(teamName, memberName);
+                return ResponseEntity.ok().body(Collections.singletonMap("message", "Le membre a bien été supprimé de l'équipe"));
+            } else {
+                return ResponseEntity.badRequest().body("Vous n'êtes pas autorisé à supprimer un membre de équipe.");
+            }
+        } catch (TeamServiceException ex) {
+            return ResponseEntity.badRequest().body("Erreur : " + ex.getMessage());
+        } catch (RuntimeException ex) {
+            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la suppression du membre de l'équipe : " + ex.getMessage());
+        }
+    }
 }

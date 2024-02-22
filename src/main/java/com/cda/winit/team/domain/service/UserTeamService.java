@@ -9,6 +9,7 @@ import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.entity.UserTeam;
 import com.cda.winit.team.repository.TeamRepository;
 import com.cda.winit.team.repository.UserTeamRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,29 @@ public class UserTeamService {
 
         userTeamRepository.save(userTeam);
     }
+
+    @Transactional
+    public void deleteMember(String teamName, String memberName) {
+        Team team = teamRepository.findTeamByName(teamName)
+                .orElseThrow(() -> new TeamServiceException("Team not found with name: " + teamName));
+
+        User user = userRepository.findByFirstName(memberName)
+                .orElseThrow(() -> new TeamServiceException("User not found with name: " + memberName));
+
+        System.out.println(team);
+        System.out.println(user);
+
+        if (!team.getLeadTeamId().equals(user.getId())) {
+            if (userTeamRepository.existsByUserAndTeam(user, team)) {
+                userTeamRepository.deleteByUserAndTeam(user, team);
+            } else {
+                throw new TeamServiceException("User " + memberName + " is not a member of team " + teamName);
+            }
+        } else {
+            throw new TeamServiceException("User " + memberName + " is the lead of team " + teamName + ". Lead cannot be removed.");
+        }
+    }
+
 
     public List<MemberDto> getAllMemberByTeamId(Long teamId) {
         List<UserTeam> usersTeam = userTeamRepository.findAllByTeamId(teamId);
