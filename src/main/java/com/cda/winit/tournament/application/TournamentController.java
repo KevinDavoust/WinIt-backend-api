@@ -1,5 +1,6 @@
 package com.cda.winit.tournament.application;
 
+import com.cda.winit.tournament.domain.dto.TournamentCreationDto;
 import com.cda.winit.tournament.domain.entity.Tournament;
 import com.cda.winit.tournament.domain.service.TournamentService;
 import com.cda.winit.tournament.infrastructure.repository.TournamentRepository;
@@ -9,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +22,20 @@ public class TournamentController {
 
     private final TournamentService tournamentService;
     private final TournamentRepository tournamentRepository;
+    
+
+    @PostMapping(value = "/create")
+    public ResponseEntity<?> create(
+            @ModelAttribute TournamentCreationDto tournamentCreationDto) {
+        
+        try {
+            Tournament tournament = tournamentService.createTournament(tournamentCreationDto);
+            return ResponseEntity.ok(tournament);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
+        }
+    }
+
     @GetMapping("/")
     public ResponseEntity<List<Tournament>> getAll(HttpServletRequest request) {
         try {
