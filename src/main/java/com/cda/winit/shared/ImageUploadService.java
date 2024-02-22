@@ -19,6 +19,18 @@ public class ImageUploadService {
         this.env = env;
     }
 
+    public String generateImageUrlAndSaveImage(MultipartFile file) throws IOException {
+        String UUID = this.generateUUID();
+        Path path = this.getPath(UUID, file);
+        String cleanFileName = this.cleanOriginalFileName(Objects.requireNonNull(file.getOriginalFilename()));
+
+        saveImage(path, file);
+
+        String imageUrl = UUID + cleanFileName;
+
+        return imageUrl;
+    }
+
     public String generateUUID() {
         return UUID.randomUUID().toString();
     }

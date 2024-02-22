@@ -4,21 +4,16 @@ import com.cda.winit.shared.ImageUploadService;
 import com.cda.winit.sport.domain.dto.SportDto;
 import com.cda.winit.sport.domain.entity.Sport;
 import com.cda.winit.sport.domain.service.SportService;
-import jakarta.servlet.ServletContext;
-import lombok.*;
-import org.springframework.core.env.Environment;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/sports")
@@ -39,17 +34,13 @@ public class SportController {
             throw new RuntimeException("Please load a file");
         }
         try {
-            String UUID = imageUploadService.generateUUID();
-            Path path = imageUploadService.getPath(UUID, file);
-            String cleanFileName = imageUploadService.cleanOriginalFileName(Objects.requireNonNull(file.getOriginalFilename()));
+            String imageUrl = imageUploadService.generateImageUrlAndSaveImage(file);
 
             Sport sport = new Sport();
-            sport.setImageUrl(UUID + cleanFileName);
+            sport.setImageUrl(imageUrl);
             sport.setName(name);
             sport.setNumberOfPlayers(numberOfPlayers);
             sportService.saveSport(sport);
-
-            imageUploadService.saveImage(path, file);
 
             return ResponseEntity.ok().body(Collections.singletonMap("message", "Le sport a bien été enregistré"));
         } catch (IOException e) {
