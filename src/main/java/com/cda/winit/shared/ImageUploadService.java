@@ -35,5 +35,4 @@ public class ImageUploadService {
     public String cleanOriginalFileName(String originalFileName) {
         return originalFileName.replaceAll("[^a-zA-Z0-9.]", "-");
     }
-
 }
