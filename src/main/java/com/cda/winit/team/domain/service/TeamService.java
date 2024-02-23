@@ -1,6 +1,7 @@
 package com.cda.winit.team.domain.service;
 
 import com.cda.winit.team.domain.dto.MemberDto;
+import com.cda.winit.team.repository.UserTeamRepository;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
 import com.cda.winit.team.domain.dto.TeamDto;
@@ -22,7 +23,7 @@ public class TeamService {
     private final UserRepository userRepository;
     private final TeamMapper teamMapper;
     private final UserTeamService userTeamService;
-
+    private final UserTeamRepository userTeamRepository;
     public Team mapTeamDTOToEntity(TeamDto teamDto, String username) {
         return teamMapper.toEntity(teamDto, username);
     }
@@ -40,12 +41,17 @@ public class TeamService {
     }
 
     public TeamDto getTeamByName(String teamName) {
-
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
 
-        return teamMapper.toDto(team);
+        int memberCount = userTeamRepository.countMembersByTeamId(team.getId());
+
+        TeamDto teamDto = teamMapper.toDto(team);
+        teamDto.setNumberOfMemberInTeam(memberCount);
+
+        return teamDto;
     }
+
     public void saveTeam(Team team) {
         teamRepository.save(team);
     }

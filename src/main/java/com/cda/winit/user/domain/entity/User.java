@@ -60,9 +60,6 @@ public class User implements UserDetails {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "team_id")
-    private Long teamId;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role)); // un role deviendra une authority

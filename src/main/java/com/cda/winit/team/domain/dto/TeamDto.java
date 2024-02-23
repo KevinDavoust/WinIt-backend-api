@@ -7,4 +7,5 @@ public class TeamDto {
     private String name;
     private String sport;
     private int numberOfPlayers;
+    private int numberOfMemberInTeam;
 }

@@ -2,6 +2,7 @@ package com.cda.winit.user.application;
 
 
 import com.cda.winit.user.domain.dto.UpdateUserRequest;
+import com.cda.winit.user.domain.dto.UserDto;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.domain.service.UserService;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
@@ -41,16 +42,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/")
-    public List<User> getAll(HttpServletRequest request) throws AccessDeniedException {
-        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        if (role.equals("[ROLE_ADMIN]")) {
-            return userRepository.findAll();
-        } else {
-            request.setAttribute("access_denied", "You do not have suffisant rights to access to this resource");
-            throw new AccessDeniedException("User does not have the correct rights to access to this resource");
-        }
+    @GetMapping("/all")
+    public List<UserDto> getAll() throws Exception {
+            return userService.getAllUsers();
     }
+
     @GetMapping("/myself")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<User> getCurrentUser() {

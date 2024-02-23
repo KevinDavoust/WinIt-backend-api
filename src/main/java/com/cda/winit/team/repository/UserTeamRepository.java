@@ -4,6 +4,7 @@ import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.entity.UserTeam;
 import com.cda.winit.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, Long> {
     boolean existsByUserAndTeam(User user, Team team);
 
     void deleteByUserAndTeam(User user, Team team);
+
+    @Query("SELECT COUNT(ut) FROM UserTeam ut WHERE ut.team.id = :teamId")
+    int countMembersByTeamId(Long teamId);
 }
