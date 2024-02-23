@@ -15,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -51,6 +53,7 @@ public class UserController {
             throw new AccessDeniedException("User does not have the correct rights to access to this resource");
         }
     }
+
     @GetMapping("/myself")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<User> getCurrentUser() {
@@ -76,6 +79,21 @@ public class UserController {
 
             userRepository.save(updatedUser);
             return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> deleteUser(@PathVariable Long id) throws Exception {
+        Optional<User> currentUser = userService.getCurrentUser();
+        Long userId = userService.getCurrentUserId();
+
+        if (currentUser.isPresent() && userId.equals(id)) {
+            userRepository.deleteById(id);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User deleted successfully");
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
