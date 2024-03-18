@@ -17,6 +17,8 @@ public interface UserTeamRepository extends JpaRepository<UserTeam, Long> {
 
     void deleteByUserAndTeam(User user, Team team);
 
+    void deleteByTeamId(Long teamId);
+
     @Query("SELECT COUNT(ut) FROM UserTeam ut WHERE ut.team.id = :teamId")
     int countMembersByTeamId(Long teamId);
 }

@@ -2,12 +2,14 @@ package com.cda.winit.team.domain.service;
 
 import com.cda.winit.team.domain.dto.MemberDto;
 import com.cda.winit.team.repository.UserTeamRepository;
+import com.cda.winit.team.repository.exception.TeamServiceException;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
 import com.cda.winit.team.domain.dto.TeamDto;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.mapper.TeamMapper;
 import com.cda.winit.team.repository.TeamRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -75,5 +77,17 @@ public class TeamService {
                 .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
 
         return userTeamService.getAllMemberByTeamId(team.getId());
+    }
+
+    @Transactional
+    public void deleteTeam(String teamName) {
+        Team team = teamRepository.findTeamByName(teamName)
+                .orElseThrow(() -> new TeamServiceException("Team not found with name: " + teamName));
+
+        // Supprimer les enregistrements dans la table user_team qui référencent cette équipe
+        userTeamRepository.deleteByTeamId(team.getId());
+
+        // Ensuite, supprimer l'équipe elle-même
+        teamRepository.delete(team);
     }
 }

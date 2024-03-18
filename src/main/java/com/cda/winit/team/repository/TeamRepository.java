@@ -1,6 +1,7 @@
 package com.cda.winit.team.repository;
 
 import com.cda.winit.team.domain.entity.Team;
+import com.cda.winit.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findTeamByName(String name);
 
     List<Team> findByLeadTeamId(Long leadTeamId);
+
+    void deleteByName(String name);
 }
