@@ -1,7 +1,6 @@
 package com.cda.winit.team.repository;
 
 import com.cda.winit.team.domain.entity.Team;
-import com.cda.winit.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
