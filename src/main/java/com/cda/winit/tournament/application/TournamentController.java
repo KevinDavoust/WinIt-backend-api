@@ -6,6 +6,7 @@ import com.cda.winit.tournament.domain.service.TournamentService;
 import com.cda.winit.tournament.infrastructure.repository.TournamentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,15 +26,12 @@ public class TournamentController {
     
 
     @PostMapping(value = "/create")
-    public ResponseEntity<?> create(
-            @ModelAttribute TournamentCreationDto tournamentCreationDto) {
+    public ResponseEntity<Long> create(
+            @ModelAttribute TournamentCreationDto tournamentCreationDto) throws Exception {
 
-        try {
-            Tournament tournament = tournamentService.createTournament(tournamentCreationDto);
-            return ResponseEntity.ok(tournament);
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex);
-        }
+            Long tournamentId = tournamentService.createTournament(tournamentCreationDto);
+
+            return ResponseEntity.ok().body(tournamentId);
     }
 
     @GetMapping("/")
