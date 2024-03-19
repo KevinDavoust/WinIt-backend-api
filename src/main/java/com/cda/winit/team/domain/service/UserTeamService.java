@@ -66,9 +66,6 @@ public class UserTeamService {
         User user = userRepository.findByFirstName(memberName)
                 .orElseThrow(() -> new TeamServiceException("User not found with name: " + memberName));
 
-        System.out.println(team);
-        System.out.println(user);
-
         if (!team.getLeadTeamId().equals(user.getId())) {
             if (userTeamRepository.existsByUserAndTeam(user, team)) {
                 userTeamRepository.deleteByUserAndTeam(user, team);
@@ -79,7 +76,6 @@ public class UserTeamService {
             throw new TeamServiceException("User " + memberName + " is the lead of team " + teamName + ". Lead cannot be removed.");
         }
     }
-
 
     public List<MemberDto> getAllMemberByTeamId(Long teamId) {
         List<UserTeam> usersTeam = userTeamRepository.findAllByTeamId(teamId);
