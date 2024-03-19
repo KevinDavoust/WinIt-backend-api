@@ -37,10 +37,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/auth/register","/api/auth/login").permitAll()
                         .requestMatchers("/api/sports/**").permitAll()
-                        .requestMatchers("/api/tournaments/all").permitAll()
+                        .requestMatchers("/api/tournaments").permitAll()
                         .requestMatchers("/api/tournaments/:id").permitAll()
                         .requestMatchers("/api/teams/**").hasAnyRole(Role.USER.name())
-                        .requestMatchers("/api/users/all").hasAnyRole(Role.USER.name())
+                        .requestMatchers("/api/users").hasAnyRole(Role.USER.name())
                         .anyRequest().authenticated()
                 )
 

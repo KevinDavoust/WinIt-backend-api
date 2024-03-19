@@ -1,6 +1,6 @@
 package com.cda.winit.team.domain.service;
 
-import com.cda.winit.team.domain.dto.MemberDto;
+import com.cda.winit.team.domain.dto.TeamMembersWithLead;
 import com.cda.winit.team.repository.UserTeamRepository;
 import com.cda.winit.team.repository.exception.TeamServiceException;
 import com.cda.winit.user.domain.entity.User;
@@ -72,7 +72,7 @@ public class TeamService {
         }
     }
 
-    public List<MemberDto> memberByTeam(String teamName) {
+    public TeamMembersWithLead memberByTeam(String teamName) {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
 
