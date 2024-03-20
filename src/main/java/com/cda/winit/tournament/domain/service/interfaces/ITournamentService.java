@@ -6,7 +6,7 @@ import com.cda.winit.tournament.domain.entity.Tournament;
 import java.util.List;
 
 public interface ITournamentService {
-    public Tournament createTournament(TournamentCreationDto tournament) throws Exception;
+    Long createTournament(TournamentCreationDto newTournamentDto) throws Exception;
     public List<Tournament> getAllTournament();
     public Tournament getOneTournament(Long id);
 }
