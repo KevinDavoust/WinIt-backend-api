@@ -19,7 +19,8 @@ public class TournamentService implements ITournamentService {
     private final TournamentEntityMappers tournamentEntityMappers;
 
     public Long createTournament(TournamentCreationDto newTournamentDto) throws Exception {
-        Tournament tournamentCreated = repository.save(tournamentEntityMappers.ToEntity(newTournamentDto));
+        Tournament tournamentCreated = repository.save(tournamentEntityMappers.ToCreationEntity(newTournamentDto));
+        
         return tournamentCreated.getId();
     }
 
