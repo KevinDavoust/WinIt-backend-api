@@ -23,7 +23,7 @@ public class TournamentService implements ITournamentService {
         return repository.save(newTournament);
     }
 
-    public List<Tournament> getAllTournament() {
+    public List<Tournament> getAllTournaments() {
         return repository.findAll();
     }
 

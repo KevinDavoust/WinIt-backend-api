@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ITournamentService {
     public Tournament createTournament(TournamentCreationDto tournament) throws Exception;
-    public List<Tournament> getAllTournament();
+    public List<Tournament> getAllTournaments();
     public Tournament getOneTournament(Long id);
 }

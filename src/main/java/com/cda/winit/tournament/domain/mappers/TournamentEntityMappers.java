@@ -3,6 +3,7 @@ package com.cda.winit.tournament.domain.mappers;
 import com.cda.winit.shared.ImageUploadService;
 import com.cda.winit.sport.domain.entity.Sport;
 import com.cda.winit.sport.infrastructure.repository.SportRepository;
+import com.cda.winit.tournament.domain.dto.TournamentCarouselDTO;
 import com.cda.winit.tournament.domain.dto.TournamentCreationDto;
 import com.cda.winit.tournament.domain.entity.Tournament;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,18 @@ public class TournamentEntityMappers {
         entity.setUpdatedAt(null);
 
         return entity;
+    }
+
+    public TournamentCarouselDTO entityToCarouselDTO(Tournament model) {
+        TournamentCarouselDTO dto = new TournamentCarouselDTO();
+        dto.setId(model.getId());
+        dto.setName(model.getName());
+        dto.setDate(model.getDate());
+        dto.setPlace(model.getPlace());
+        dto.setImageUrl(model.getImageUrl());
+        dto.setCurrentNumberOfParticipants(model.getCurrentNumberOfParticipants());
+        dto.setMaxNumberOfTeams(model.getMaxNumberOfTeams());
+        dto.setSport(model.getSport().getName());
+        return dto;
     }
 }
