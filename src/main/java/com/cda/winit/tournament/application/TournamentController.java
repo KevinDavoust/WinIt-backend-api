@@ -1,9 +1,10 @@
 package com.cda.winit.tournament.application;
 
+import com.cda.winit.tournament.domain.dto.TournamentCarouselDTO;
 import com.cda.winit.tournament.domain.dto.TournamentCreationDto;
 import com.cda.winit.tournament.domain.entity.Tournament;
+import com.cda.winit.tournament.domain.mappers.TournamentEntityMappers;
 import com.cda.winit.tournament.domain.service.TournamentService;
-import com.cda.winit.tournament.infrastructure.repository.TournamentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.json.JSONParser;
@@ -13,7 +14,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,16 @@ import java.util.List;
 public class TournamentController {
 
     private final TournamentService tournamentService;
-    private final TournamentRepository tournamentRepository;
-    
+    private final TournamentEntityMappers mapper;
+
+    @GetMapping("/")
+    public ArrayList<TournamentCarouselDTO> getAll() {
+        List<Tournament> tournaments = tournamentService.getAllTournaments();
+        var tournamentsDtos = new ArrayList<TournamentCarouselDTO>();
+        tournaments.forEach(tournament -> tournamentsDtos.add(mapper.entityToCarouselDTO(tournament)));
+        return tournamentsDtos;
+    }
+
 
     @PostMapping(value = "/create")
     public ResponseEntity<Long> create(
@@ -32,17 +41,6 @@ public class TournamentController {
             Long tournamentId = tournamentService.createTournament(tournamentCreationDto);
 
             return ResponseEntity.ok().body(tournamentId);
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<List<Tournament>> getAll(HttpServletRequest request) {
-        try {
-            List<Tournament> tournaments = tournamentRepository.findAll();
-            return ResponseEntity.ok(tournaments);
-        } catch (Exception e) {
-            String errorMessage = "An error occurred while processing the request.";
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
-        }
     }
 
     @GetMapping("/{id}")

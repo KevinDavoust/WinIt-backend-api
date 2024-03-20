@@ -24,7 +24,7 @@ public class TournamentService implements ITournamentService {
         return tournamentCreated.getId();
     }
 
-    public List<Tournament> getAllTournament() {
+    public List<Tournament> getAllTournaments() {
         return repository.findAll();
     }
 
