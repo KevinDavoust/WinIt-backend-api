@@ -58,21 +58,21 @@ WHERE
 -- Création des tournois
 INSERT INTO tournament (game_length, max_number_of_teams, min_number_of_teams, players_per_team, created_at, current_number_of_participants, date, inscription_limit_date, sport_id, format, image_url, name, place, player_category, privacy)
 VALUES
-    (90, 8, 2, 11, NOW(), 0, '2023-04-01 10:00:00.000000', '2023-03-30 23:59:59.000000', 1, 'Format 3', NULL, 'Tournoi de football', 'Marseille', 'Amateur', 'Public'),
+    (90, 8, 2, 11, NOW(), 0, '2023-04-01 10:00:00.000000', '2023-03-30 23:59:59.000000', 1, 'Format 3', 'tournament-card-img.png', 'Tournoi de football', 'Marseille', 'Amateur', 'Public'),
 
-    (90, 8, 2, 6, NOW(), 0, '2023-04-10 15:00:00.000000', '2023-04-08 23:59:59.000000', 2, 'Format 3', NULL, 'Tournoi de volleyball', 'Paris', 'Amateur', 'Public'),
+    (90, 8, 2, 6, NOW(), 0, '2023-04-10 15:00:00.000000', '2023-04-08 23:59:59.000000', 2, 'Format 3', 'tournament-card-img.png', 'Tournoi de volleyball', 'Paris', 'Amateur', 'Public'),
 
-    (90, 8, 2, 15, NOW(), 0, '2024-09-05 14:00:00.000000', '2024-09-03 23:59:59.000000', 3, 'Format 3', NULL, 'Tournoi de rugby', 'Bordeaux', 'Amateur', 'Public'),
+    (90, 8, 2, 15, NOW(), 0, '2024-09-05 14:00:00.000000', '2024-09-03 23:59:59.000000', 3, 'Format 3', 'tournament-card-img.png', 'Tournoi de rugby', 'Bordeaux', 'Amateur', 'Public'),
 
-    (90, 8, 2, 5, NOW(), 0, '2024-10-20 13:00:00.000000', '2024-10-18 23:59:59.000000', 1, 'Format 3', NULL, 'Tournoi de football', 'Bordeaux', 'Amateur', 'Public'),
+    (90, 8, 2, 5, NOW(), 0, '2024-10-20 13:00:00.000000', '2024-10-18 23:59:59.000000', 1, 'Format 3', 'tournament-card-img.png', 'Tournoi de football', 'Bordeaux', 'Amateur', 'Public'),
 
-    (90, 8, 2, 10, NOW(), 0, '2022-05-01 11:00:00.000000', '2022-04-29 23:59:59.000000', 2, 'Format 3', NULL, 'Tournoi de volleyball', 'Bordeaux', 'Amateur', 'Public'),
+    (90, 8, 2, 10, NOW(), 0, '2022-05-01 11:00:00.000000', '2022-04-29 23:59:59.000000', 2, 'Format 3', 'tournament-card-img.png', 'Tournoi de volleyball', 'Bordeaux', 'Amateur', 'Public'),
 
-    (90, 8, 2, 7, NOW(), 0, '2025-05-10 12:00:00.000000', '2025-05-08 23:59:59.000000', 3, 'Format 3', NULL, 'Tournoi de rugby', 'Paris', 'Amateur', 'Public'),
+    (90, 8, 2, 7, NOW(), 0, '2025-05-10 12:00:00.000000', '2025-05-08 23:59:59.000000', 3, 'Format 3', 'tournament-card-img.png', 'Tournoi de rugby', 'Paris', 'Amateur', 'Public'),
 
-    (90, 8, 2, 6, NOW(), 0, '2025-05-15 17:00:00.000000', '2025-05-13 23:59:59.000000', 1, 'Format 3', NULL, 'Tournoi de football', 'Marseille', 'Amateur', 'Public'),
+    (90, 8, 2, 6, NOW(), 0, '2025-05-15 17:00:00.000000', '2025-05-13 23:59:59.000000', 1, 'Format 3', 'tournament-card-img.png', 'Tournoi de football', 'Marseille', 'Amateur', 'Public'),
 
-    (90, 8, 2, 9, NOW(), 0, '2024-05-25 09:00:00.000000', '2024-05-23 23:59:59.000000', 2, 'Format 3', NULL, 'Tournoi de volleyball', 'Bordeaux', 'Amateur', 'Public');
+    (90, 8, 2, 9, NOW(), 0, '2024-05-25 09:00:00.000000', '2024-05-23 23:59:59.000000', 2, 'Format 3', 'tournament-card-img.png', 'Tournoi de volleyball', 'Bordeaux', 'Amateur', 'Public');
 
 
 
