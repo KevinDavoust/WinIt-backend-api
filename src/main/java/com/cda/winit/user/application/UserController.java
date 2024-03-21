@@ -44,7 +44,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<UserDto> getAll() throws Exception {
             return userService.getAllUsers();
     }

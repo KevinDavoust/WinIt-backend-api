@@ -1,6 +1,7 @@
 package com.cda.winit.team.domain.service;
 
 import com.cda.winit.team.domain.dto.MemberDto;
+import com.cda.winit.team.domain.dto.TeamMembersWithLead;
 import com.cda.winit.team.domain.service.mapper.MemberMapper;
 import com.cda.winit.team.repository.exception.TeamServiceException;
 import com.cda.winit.user.domain.entity.User;
@@ -9,6 +10,7 @@ import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.entity.UserTeam;
 import com.cda.winit.team.repository.TeamRepository;
 import com.cda.winit.team.repository.UserTeamRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,9 +79,15 @@ public class UserTeamService {
         }
     }
 
-    public List<MemberDto> getAllMemberByTeamId(Long teamId) {
+    public TeamMembersWithLead getAllMemberByTeamId(Long teamId) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+
+        String leadTeamName = userRepository.findById(team.getLeadTeamId())
+                .map(User::getFirstName)
+                .orElseThrow(() -> new EntityNotFoundException("Lead team user not found"));
+
         List<UserTeam> usersTeam = userTeamRepository.findAllByTeamId(teamId);
-        System.out.println(usersTeam);
 
         List<Long> userIds = usersTeam.stream()
                 .map(UserTeam::getUser)
@@ -88,8 +96,14 @@ public class UserTeamService {
 
         List<User> users = userRepository.findAllById(userIds);
 
-        return users.stream()
-                .map(memberMapper::toDto)
+        List<MemberDto> members = users.stream()
+                .map(user -> memberMapper.toDto(user))
                 .collect(Collectors.toList());
+
+        TeamMembersWithLead response = new TeamMembersWithLead();
+        response.setMembers(members);
+        response.setLeadTeamName(leadTeamName);
+
+        return response;
     }
 }

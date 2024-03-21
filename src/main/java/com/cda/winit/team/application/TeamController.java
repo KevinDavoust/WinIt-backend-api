@@ -2,6 +2,7 @@ package com.cda.winit.team.application;
 
 import com.cda.winit.team.domain.dto.MemberDto;
 import com.cda.winit.team.domain.dto.TeamDto;
+import com.cda.winit.team.domain.dto.TeamMembersWithLead;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.TeamService;
 import com.cda.winit.team.domain.service.UserTeamService;
@@ -56,7 +57,7 @@ public class TeamController {
     @GetMapping("/{teamName}/members")
     public ResponseEntity<?> memberByTeam(@PathVariable String teamName) {
         try {
-            List<MemberDto> members = teamService.memberByTeam(teamName);
+            TeamMembersWithLead members = teamService.memberByTeam(teamName);
             return ResponseEntity.ok(members);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la récupération des membres de l'équipe.");
