@@ -6,6 +6,7 @@ import lombok.Data;
 public class TeamDto {
     private String name;
     private String sport;
+    private String leadTeamName;
     private int numberOfPlayers;
     private int numberOfMemberInTeam;
 }

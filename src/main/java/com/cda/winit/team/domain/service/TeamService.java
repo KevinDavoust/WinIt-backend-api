@@ -9,6 +9,7 @@ import com.cda.winit.team.domain.dto.TeamDto;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.mapper.TeamMapper;
 import com.cda.winit.team.repository.TeamRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,10 +47,15 @@ public class TeamService {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
 
+        String leadTeamName = userRepository.findById(team.getLeadTeamId())
+                .map(User::getFirstName)
+                .orElseThrow(() -> new EntityNotFoundException("Lead team user not found"));
+
         int memberCount = userTeamRepository.countMembersByTeamId(team.getId());
 
         TeamDto teamDto = teamMapper.toDto(team);
         teamDto.setNumberOfMemberInTeam(memberCount);
+        teamDto.setLeadTeamName(leadTeamName);
 
         return teamDto;
     }
