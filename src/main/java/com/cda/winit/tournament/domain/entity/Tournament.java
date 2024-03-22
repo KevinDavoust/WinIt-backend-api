@@ -36,19 +36,19 @@ public class Tournament implements Serializable {
         private String place;
 
         @Column(name = "current_number_of_participants")
-        private Long currentNumberOfParticipants;
+        private Integer currentNumberOfParticipants;
 
         @Column(name = "players_per_team", nullable = false)
-        private int playersPerTeam;
+        private Integer playersPerTeam;
 
         @Column(name = "min_number_of_teams")
-        private int minNumberOfTeams;
+        private Integer minNumberOfTeams;
 
         @Column(name = "max_number_of_teams", nullable = false)
-        private int maxNumberOfTeams;
+        private Integer maxNumberOfTeams;
 
         @Column(name = "game_length", nullable = false)
-        private int gameLength;
+        private Integer gameLength;
 
         @Column(name = "player_category")
         private String playerCategory;

@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/register","/api/auth/login", "/uploads/**").permitAll()
                         .requestMatchers("/api/sports/**").permitAll()
                         .requestMatchers("/api/tournaments/").permitAll()
+                        .requestMatchers("/api/tournaments/filter").permitAll()
                         .requestMatchers("/api/tournaments/:id").permitAll()
                         .requestMatchers("/api/teams/**").hasAnyRole(Role.USER.name())
                         .requestMatchers("/api/users").hasAnyRole(Role.USER.name())

@@ -7,8 +7,6 @@ import com.cda.winit.tournament.domain.mappers.TournamentEntityMappers;
 import com.cda.winit.tournament.domain.service.TournamentService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,14 +31,34 @@ public class TournamentController {
         return tournamentsDtos;
     }
 
+    @GetMapping("/filter")
+    public ArrayList<TournamentCarouselDTO> getStudentsByFilter(
+            @RequestParam String searchValue,
+            @RequestParam String selectedSport,
+            @RequestParam Boolean chronologicalFilter,
+            @RequestParam Boolean showOnlyUpcomingTournaments,
+            @RequestParam Boolean showNonFullTournaments
+    ) {
+        List<Tournament> tournaments = tournamentService.getTournamentsByFilter(
+                searchValue,
+                selectedSport,
+                chronologicalFilter,
+                showOnlyUpcomingTournaments,
+                showNonFullTournaments
+        );
+        var tournamentsDtos = new ArrayList<TournamentCarouselDTO>();
+        tournaments.forEach(tournament -> tournamentsDtos.add(mapper.entityToCarouselDTO(tournament)));
+        return tournamentsDtos;
+    }
+
 
     @PostMapping(value = "/create")
     public ResponseEntity<Long> create(
             @ModelAttribute TournamentCreationDto tournamentCreationDto) throws Exception {
 
-            Long tournamentId = tournamentService.createTournament(tournamentCreationDto);
+        Long tournamentId = tournamentService.createTournament(tournamentCreationDto);
 
-            return ResponseEntity.ok().body(tournamentId);
+        return ResponseEntity.ok().body(tournamentId);
     }
 
     @GetMapping("/{id}")
@@ -48,7 +66,7 @@ public class TournamentController {
         String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 
         if (role.equals("[ROLE_ADMIN]") || role.equals("[ROLE_USER]")) {
-            Tournament  tournament = tournamentService.getOneTournament(id);
+            Tournament tournament = tournamentService.getOneTournament(id);
             return tournament;
 
         } else {
