@@ -16,8 +16,8 @@ public class TournamentCarouselDTO {
     private String name;
     private Date date;
     private String place;
-    private Long currentNumberOfParticipants;
-    private int maxNumberOfTeams;
+    private Integer currentNumberOfParticipants;
+    private Integer maxNumberOfTeams;
     private String imageUrl;
     private String sport;
 

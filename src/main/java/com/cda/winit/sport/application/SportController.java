@@ -47,4 +47,9 @@ public class SportController {
             throw new IOException(e);
         }
     }
+
+    @GetMapping("/names")
+    public List<String> getAllSportNames() {
+        return sportService.getAllSportNames();
+    }
 }

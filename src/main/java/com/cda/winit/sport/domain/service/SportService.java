@@ -7,6 +7,7 @@ import com.cda.winit.sport.infrastructure.repository.SportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +49,12 @@ public class SportService {
         } else {
             throw new RuntimeException("Sport not found with id: " + sportId);
         }
+    }
+
+    public List<String> getAllSportNames() {
+        var names = new ArrayList<String>();
+        sportRepository.findAll().forEach(sport -> names.add(sport.getName()));
+        return names;
+
     }
 }
