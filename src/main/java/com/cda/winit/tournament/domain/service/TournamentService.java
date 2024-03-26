@@ -1,8 +1,9 @@
 package com.cda.winit.tournament.domain.service;
 
 import com.cda.winit.tournament.domain.dto.TournamentCreationDto;
+import com.cda.winit.tournament.domain.dto.TournamentDetailsDto;
 import com.cda.winit.tournament.domain.entity.Tournament;
-import com.cda.winit.tournament.domain.mappers.TournamentEntityMappers;
+import com.cda.winit.tournament.domain.service.mappers.TournamentEntityMappers;
 import com.cda.winit.tournament.domain.service.interfaces.ITournamentService;
 import com.cda.winit.tournament.infrastructure.repository.TournamentRepository;
 import com.cda.winit.tournament.infrastructure.repository.exception.TournamentNotFoundException;
@@ -28,8 +29,10 @@ public class TournamentService implements ITournamentService {
         return repository.findAll();
     }
 
-    public Tournament getOneTournament(Long id) {
-        return repository.findById(id)
+    public TournamentDetailsDto  getOneTournament(Long id) {
+        Tournament tournament = repository.findById(id)
                 .orElseThrow(() -> new TournamentNotFoundException(id));
+        TournamentDetailsDto tournamentDetailsDto = tournamentEntityMappers.entityToTournamentDetailsDTO(tournament);
+        return tournamentDetailsDto;
     }
 }

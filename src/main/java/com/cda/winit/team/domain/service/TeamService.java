@@ -1,7 +1,9 @@
 package com.cda.winit.team.domain.service;
 
+import com.cda.winit.member.domain.entity.Member;
+import com.cda.winit.member.domain.service.MemberService;
+import com.cda.winit.member.infrastructure.repository.MemberRepository;
 import com.cda.winit.team.domain.dto.TeamMembersWithLead;
-import com.cda.winit.team.repository.UserTeamRepository;
 import com.cda.winit.team.repository.exception.TeamServiceException;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
@@ -25,8 +27,22 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
     private final TeamMapper teamMapper;
-    private final UserTeamService userTeamService;
-    private final UserTeamRepository userTeamRepository;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
+
+    public void createUserTeam(String username, Long teamId) {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + username));
+
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found with ID: " + teamId));
+
+        Member member = new Member();
+        member.setUser(user);
+        member.setTeam(team);
+
+        memberRepository.save(member);
+    }
     public Team mapTeamDTOToEntity(TeamDto teamDto, String username) {
         return teamMapper.toEntity(teamDto, username);
     }
@@ -51,7 +67,7 @@ public class TeamService {
                 .map(User::getFirstName)
                 .orElseThrow(() -> new EntityNotFoundException("Lead team user not found"));
 
-        int memberCount = userTeamRepository.countMembersByTeamId(team.getId());
+        int memberCount = memberRepository.countMembersByTeamId(team.getId());
 
         TeamDto teamDto = teamMapper.toDto(team);
         teamDto.setNumberOfMemberInTeam(memberCount);
@@ -82,7 +98,7 @@ public class TeamService {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new RuntimeException("Team not found with name: " + teamName));
 
-        return userTeamService.getAllMemberByTeamId(team.getId());
+        return memberService.getAllMemberByTeamId(team.getId());
     }
 
     @Transactional
@@ -90,10 +106,8 @@ public class TeamService {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new TeamServiceException("Team not found with name: " + teamName));
 
-        // Supprimer les enregistrements dans la table user_team qui référencent cette équipe
-        userTeamRepository.deleteByTeamId(team.getId());
+        memberRepository.deleteByTeamId(team.getId());
 
-        // Ensuite, supprimer l'équipe elle-même
         teamRepository.delete(team);
     }
 }

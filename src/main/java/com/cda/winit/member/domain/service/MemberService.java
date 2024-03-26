@@ -1,15 +1,17 @@
-package com.cda.winit.team.domain.service;
+package com.cda.winit.member.domain.service;
 
-import com.cda.winit.team.domain.dto.MemberDto;
+import com.cda.winit.member.domain.dto.MemberRequestDto;
+import com.cda.winit.member.domain.dto.MemberResponseDto;
+import com.cda.winit.member.domain.entity.Member;
+import com.cda.winit.member.domain.service.interfaces.IMemberService;
+import com.cda.winit.member.infrastructure.repository.MemberRepository;
 import com.cda.winit.team.domain.dto.TeamMembersWithLead;
-import com.cda.winit.team.domain.service.mapper.MemberMapper;
+import com.cda.winit.team.domain.entity.Team;
+import com.cda.winit.member.domain.service.mapper.MemberMapper;
+import com.cda.winit.team.repository.TeamRepository;
 import com.cda.winit.team.repository.exception.TeamServiceException;
 import com.cda.winit.user.domain.entity.User;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
-import com.cda.winit.team.domain.entity.Team;
-import com.cda.winit.team.domain.entity.UserTeam;
-import com.cda.winit.team.repository.TeamRepository;
-import com.cda.winit.team.repository.UserTeamRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,44 +22,31 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserTeamService {
+public class MemberService implements IMemberService {
 
-    private final UserTeamRepository userTeamRepository;
+    private final MemberRepository memberRepository;
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
     private final MemberMapper memberMapper;
-    public void createUserTeam(String username, Long teamId) {
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + username));
 
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new RuntimeException("Team not found with ID: " + teamId));
-
-        UserTeam userTeam = new UserTeam();
-        userTeam.setUser(user);
-        userTeam.setTeam(team);
-
-        userTeamRepository.save(userTeam);
-    }
-
-    public void createMember(String teamName, MemberDto memberDto) {
+    public void addMemberToTeam(String teamName, MemberRequestDto memberRequestDto) {
         Team team = teamRepository.findTeamByName(teamName)
                 .orElseThrow(() -> new TeamServiceException("Team not found with name: " + teamName));
 
-        User user = userRepository.findByFirstName(memberDto.getName())
-                .orElseThrow(() -> new TeamServiceException("User not found with name: " + memberDto.getName()));
+        User user = userRepository.findByEmail(memberRequestDto.getEmail())
+                .orElseThrow(() -> new TeamServiceException("User not found with name: " + memberRequestDto.getEmail()));
 
-        boolean isMember = userTeamRepository.existsByUserAndTeam(user, team);
+        boolean isMember = memberRepository.existsByUserAndTeam(user, team);
 
         if (isMember) {
             throw new TeamServiceException("L'utilisateur appartient déjà à cette équipe.");
         }
 
-        UserTeam userTeam = new UserTeam();
-        userTeam.setUser(user);
-        userTeam.setTeam(team);
+        Member member = new Member();
+        member.setUser(user);
+        member.setTeam(team);
 
-        userTeamRepository.save(userTeam);
+        memberRepository.save(member);
     }
 
     @Transactional
@@ -69,8 +58,8 @@ public class UserTeamService {
                 .orElseThrow(() -> new TeamServiceException("User not found with name: " + memberName));
 
         if (!team.getLeadTeamId().equals(user.getId())) {
-            if (userTeamRepository.existsByUserAndTeam(user, team)) {
-                userTeamRepository.deleteByUserAndTeam(user, team);
+            if (memberRepository.existsByUserAndTeam(user, team)) {
+                memberRepository.deleteByUserAndTeam(user, team);
             } else {
                 throw new TeamServiceException("User " + memberName + " is not a member of team " + teamName);
             }
@@ -87,16 +76,16 @@ public class UserTeamService {
                 .map(User::getFirstName)
                 .orElseThrow(() -> new EntityNotFoundException("Lead team user not found"));
 
-        List<UserTeam> usersTeam = userTeamRepository.findAllByTeamId(teamId);
+        List<Member> usersTeam = memberRepository.findAllByTeamId(teamId);
 
         List<Long> userIds = usersTeam.stream()
-                .map(UserTeam::getUser)
+                .map(Member::getUser)
                 .map(User::getId)
                 .collect(Collectors.toList());
 
         List<User> users = userRepository.findAllById(userIds);
 
-        List<MemberDto> members = users.stream()
+        List<MemberResponseDto> members = users.stream()
                 .map(user -> memberMapper.toDto(user))
                 .collect(Collectors.toList());
 
