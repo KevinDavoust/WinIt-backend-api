@@ -29,7 +29,7 @@ public class TeamMapper {
         team.setName(teamDto.getName());
         Long sportId = sportService.findSportIdByName(teamDto.getSport());
         team.setSport_id(sportId);
-        team.setLeadTeamId(user.getId());
+        team.setLeaderTeamId(user.getId());
         return team;
     }
 
@@ -37,7 +37,7 @@ public class TeamMapper {
         TeamDto teamDto = new TeamDto();
         teamDto.setName(team.getName());
         teamDto.setSport(sportService.findSportNameById(team.getSport_id()));
-        teamDto.setNumberOfPlayers(sportService.findSportNumberPlayer(team.getSport_id()));
+        teamDto.setTotalPlayers(sportService.findSportNumberPlayer(team.getSport_id()));
         return teamDto;
     }
 }

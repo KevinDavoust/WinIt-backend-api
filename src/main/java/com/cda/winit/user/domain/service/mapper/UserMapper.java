@@ -1,4 +1,4 @@
-package com.cda.winit.user.domain.service;
+package com.cda.winit.user.domain.service.mapper;
 
 import com.cda.winit.user.domain.dto.UserDto;
 import com.cda.winit.user.domain.entity.User;

@@ -13,7 +13,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     Optional<Team> findTeamByName(String name);
 
-    List<Team> findByLeadTeamId(Long leadTeamId);
+    List<Team> findByLeaderTeamId(Long leaderTeamId);
 
     void deleteByName(String name);
 }

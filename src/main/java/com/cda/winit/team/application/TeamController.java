@@ -1,9 +1,9 @@
 package com.cda.winit.team.application;
 
 import com.cda.winit.team.domain.dto.TeamDto;
-import com.cda.winit.team.domain.dto.TeamMembersWithLead;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.domain.service.TeamService;
+import com.cda.winit.team.repository.TeamRepository;
 import com.cda.winit.team.repository.exception.ListTeamByUserAlreadyExistsException;
 import com.cda.winit.team.repository.exception.TeamNameAlreadyExistsException;
 import com.cda.winit.team.repository.exception.TeamServiceException;
@@ -22,14 +22,15 @@ import java.util.List;
 public class TeamController {
 
     private final TeamService teamService;
+    private final TeamRepository teamRepository;
 
     @GetMapping
-    public ResponseEntity<?> listTeamsCreatedByUser() {
+    public ResponseEntity<?> getAllTeamsOfUser() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-            List<TeamDto> teams = teamService.listTeamsCreatedByUser(username);
+            List<TeamDto> teams = teamService.getAllTeamsCreatedByLeader(username);
             return ResponseEntity.ok().body(teams);
         } catch (ListTeamByUserAlreadyExistsException ex) {
             return ResponseEntity.badRequest().body("L'utilisateur le possède pas d'équipe.");
@@ -37,9 +38,9 @@ public class TeamController {
     }
 
     @GetMapping("/{teamName}")
-    public ResponseEntity<?> teamByTeamName(@PathVariable String teamName) {
+    public ResponseEntity<?> getTeamOfUser(@PathVariable String teamName) {
         try {
-            TeamDto team = teamService.getTeamByName(teamName);
+            TeamDto team = teamService.getTeamByTeamName(teamName);
 
             if (team != null) {
                 return ResponseEntity.ok().body(team);
@@ -51,26 +52,16 @@ public class TeamController {
         }
     }
 
-    @GetMapping("/{teamName}/members")
-    public ResponseEntity<?> membersByTeam(@PathVariable String teamName) {
-        try {
-            TeamMembersWithLead members = teamService.memberByTeam(teamName);
-            return ResponseEntity.ok(members);
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Une erreur s'est produite lors de la récupération des membres de l'équipe.");
-        }
-    }
-
     @PostMapping
     public ResponseEntity<Object> createTeam(@RequestBody TeamDto teamDto) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-            Team team = teamService.mapTeamDTOToEntity(teamDto, username);
-            teamService.saveTeam(team);
+            Team team = teamService.mapTeamDtoToEntity(teamDto, username);
+            teamRepository.save(team);
 
-            teamService.createUserTeam(username, team.getId());
+            teamService.createTeamWithLeader(username, team.getId());
 
             return ResponseEntity.ok().body(Collections.singletonMap("message", "L'équipe a bien été enregistrée"));
         } catch (TeamNameAlreadyExistsException ex) {
@@ -79,7 +70,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/{teamName}")
-    public ResponseEntity<?> deletedTeam(@PathVariable String teamName) {
+    public ResponseEntity<?> deleteTeam(@PathVariable String teamName) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
