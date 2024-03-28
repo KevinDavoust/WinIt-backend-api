@@ -38,6 +38,10 @@ public class TeamMapper {
         teamDto.setName(team.getName());
         teamDto.setSport(sportService.findSportNameById(team.getSport_id()));
         teamDto.setTotalPlayers(sportService.findSportNumberPlayer(team.getSport_id()));
+        Boolean isValidated = team.getIsValidated();
+        if(isValidated != null && isValidated){
+            teamDto.setValidated(isValidated);
+        }
         return teamDto;
     }
 }

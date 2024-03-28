@@ -20,5 +20,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     void deleteByTeamId(Long teamId);
 
     @Query("SELECT COUNT(ut) FROM Member ut WHERE ut.team.id = :teamId")
-    int countMembersByTeamId(Long teamId);
+    int totalPlayersByTeam(Long teamId);
 }

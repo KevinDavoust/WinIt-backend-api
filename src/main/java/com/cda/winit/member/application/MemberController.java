@@ -2,6 +2,7 @@ package com.cda.winit.member.application;
 
 import com.cda.winit.member.domain.dto.MemberRequest;
 import com.cda.winit.member.domain.service.MemberService;
+import com.cda.winit.team.domain.dto.TeamDto;
 import com.cda.winit.team.domain.service.TeamService;
 import com.cda.winit.team.repository.exception.TeamServiceException;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,10 @@ public class MemberController {
 
             if (isTeamLead) {
                 memberService.addMemberToTeam(teamName, memberRequest);
-                return ResponseEntity.ok().body(Collections.singletonMap("message", "Le membre a bien été enregistré dans l'équipe"));
+
+                TeamDto updatedTeam = teamService.getTeamByTeamName(teamName);
+
+                return ResponseEntity.ok().body(updatedTeam);
             } else {
                 return ResponseEntity.badRequest().body("Vous n'êtes pas autorisé à ajouter un membre à cette équipe.");
             }
@@ -41,8 +45,11 @@ public class MemberController {
         }
     }
 
-    @DeleteMapping("/{teamName}")
-    public ResponseEntity<?> deleteMemberFromTeam(@PathVariable String teamName, @RequestBody MemberRequest memberRequest) {
+    @DeleteMapping("/{teamName}/{memberId}")
+    public ResponseEntity<?> deleteMemberFromTeam(@PathVariable String teamName, @PathVariable String memberId) {
+        System.out.println(teamName);
+        System.out.println(memberId);
+
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -50,8 +57,11 @@ public class MemberController {
             boolean isTeamLead = teamService.verifyTeamLead(teamName, username);
 
             if (isTeamLead) {
-                memberService.deleteMember(teamName, memberRequest.getId());
-                return ResponseEntity.ok().body(Collections.singletonMap("message", "Le membre a bien été supprimé de l'équipe"));
+                memberService.deleteMember(teamName, Long.valueOf(memberId));
+
+                TeamDto updatedTeam = teamService.getTeamByTeamName(teamName);
+
+                return ResponseEntity.ok().body(updatedTeam);
             } else {
                 return ResponseEntity.badRequest().body("Vous n'êtes pas autorisé à supprimer un membre de équipe.");
             }

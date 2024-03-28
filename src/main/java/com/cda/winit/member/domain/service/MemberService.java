@@ -1,8 +1,10 @@
 package com.cda.winit.member.domain.service;
 
 import com.cda.winit.member.domain.dto.MemberRequest;
+import com.cda.winit.member.domain.dto.MemberResponse;
 import com.cda.winit.member.domain.entity.Member;
 import com.cda.winit.member.domain.service.interfaces.IMemberService;
+import com.cda.winit.member.domain.service.mapper.MemberMapper;
 import com.cda.winit.member.infrastructure.repository.MemberRepository;
 import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.team.repository.TeamRepository;
@@ -13,6 +15,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService implements IMemberService {
@@ -20,6 +25,14 @@ public class MemberService implements IMemberService {
     private final MemberRepository memberRepository;
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
+    private final MemberMapper memberMapper;
+
+    public List<MemberResponse> getAllMembersByTeamId(Long teamId) {
+        List<Member> members = memberRepository.findAllByTeamId(teamId);
+        return members.stream()
+                .map(member -> memberMapper.toDto(member.getUser()))
+                .collect(Collectors.toList());
+    }
 
     public void addMemberToTeam(String teamName, MemberRequest memberRequest) {
         Team team = teamRepository.findTeamByName(teamName)

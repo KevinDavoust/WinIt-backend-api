@@ -1,6 +1,8 @@
 package com.cda.winit.team.domain.service;
 
+import com.cda.winit.member.domain.dto.MemberResponse;
 import com.cda.winit.member.domain.entity.Member;
+import com.cda.winit.member.domain.service.MemberService;
 import com.cda.winit.member.infrastructure.repository.MemberRepository;
 import com.cda.winit.team.domain.service.interfaces.ITeamService;
 import com.cda.winit.team.repository.exception.TeamServiceException;
@@ -27,6 +29,7 @@ public class TeamService implements ITeamService {
     private final UserRepository userRepository;
     private final TeamMapper teamMapper;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public List<TeamDto> getAllTeamsCreatedByLeader(String username) {
         User user = userRepository.findByEmail(username)
@@ -48,12 +51,16 @@ public class TeamService implements ITeamService {
                 .map(User::getFirstName)
                 .orElseThrow(() -> new EntityNotFoundException("Leader team user not found"));
 
-        int memberCount = memberRepository.countMembersByTeamId(team.getId());
+        List<MemberResponse> members = memberService.getAllMembersByTeamId(team.getId());
+
+        int totalPlayers = memberRepository.totalPlayersByTeam(team.getId());
 
         TeamDto teamDto = teamMapper.toDto(team);
-        teamDto.setTeamMembersCount(memberCount);
+        teamDto.setTeamMembersCount(totalPlayers);
         teamDto.setLeaderName(leaderTeamName);
-
+        if(members != null) {
+            teamDto.setMembers(members);
+        }
         return teamDto;
     }
 
