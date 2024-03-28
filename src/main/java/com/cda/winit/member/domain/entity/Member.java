@@ -1,5 +1,6 @@
-package com.cda.winit.team.domain.entity;
+package com.cda.winit.member.domain.entity;
 
+import com.cda.winit.team.domain.entity.Team;
 import com.cda.winit.user.domain.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "`user_team`")
-public class UserTeam {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,4 +1,4 @@
-package com.cda.winit.user.domain.service;
+package com.cda.winit.user.domain.service.mapper;
 
 import com.cda.winit.user.domain.dto.UserDto;
 import com.cda.winit.user.domain.entity.User;
@@ -12,7 +12,7 @@ public class UserMapper {
         UserDto userDto = new UserDto();
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
+        userDto.setId(user.getId());
         return userDto;
     }
 }

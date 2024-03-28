@@ -2,6 +2,7 @@ package com.cda.winit.tournament.domain.entity;
 
 import com.cda.winit.match.domain.entity.Match;
 import com.cda.winit.sport.domain.entity.Sport;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,9 +63,11 @@ public class Tournament implements Serializable {
         @Column(name = "image_url")
         private String imageUrl;
 
+        @JsonIgnore
         @OneToMany(mappedBy = "tournament")
         private List<Match> matches;
 
+        @JsonIgnore
         @ManyToOne
         @JoinColumn(name = "sport_id", nullable = false)
         private Sport sport;

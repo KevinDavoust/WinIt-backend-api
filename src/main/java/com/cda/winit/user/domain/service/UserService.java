@@ -2,6 +2,7 @@ package com.cda.winit.user.domain.service;
 
 import com.cda.winit.user.domain.dto.UserDto;
 import com.cda.winit.user.domain.entity.User;
+import com.cda.winit.user.domain.service.mapper.UserMapper;
 import com.cda.winit.user.infrastructure.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

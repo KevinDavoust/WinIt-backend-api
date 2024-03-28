@@ -1,16 +1,11 @@
 package com.cda.winit.tournament.domain.dto;
 
-
-import lombok.*;
+import lombok.Data;
 
 import java.util.Date;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class TournamentCarouselDTO {
+@Data
+public class TournamentDetailsDto {
     private Long id;
     private String name;
     private Date date;
@@ -19,4 +14,7 @@ public class TournamentCarouselDTO {
     private int maxNumberOfTeams;
     private String imageUrl;
     private String sport;
+    private Date inscriptionLimitDate;
+    private String format;
+    private String privacy;
 }

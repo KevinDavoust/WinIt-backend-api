@@ -1,10 +1,11 @@
-package com.cda.winit.tournament.domain.mappers;
+package com.cda.winit.tournament.domain.service.mappers;
 
 import com.cda.winit.shared.ImageUploadService;
 import com.cda.winit.sport.domain.entity.Sport;
 import com.cda.winit.sport.infrastructure.repository.SportRepository;
 import com.cda.winit.tournament.domain.dto.TournamentCarouselDTO;
 import com.cda.winit.tournament.domain.dto.TournamentCreationDto;
+import com.cda.winit.tournament.domain.dto.TournamentDetailsDto;
 import com.cda.winit.tournament.domain.entity.Tournament;
 import org.springframework.stereotype.Service;
 
@@ -90,6 +91,22 @@ public class TournamentEntityMappers {
         dto.setCurrentNumberOfParticipants(model.getCurrentNumberOfParticipants());
         dto.setMaxNumberOfTeams(model.getMaxNumberOfTeams());
         dto.setSport(model.getSport().getName());
+        return dto;
+    }
+
+    public TournamentDetailsDto entityToTournamentDetailsDTO(Tournament tournament) {
+        TournamentDetailsDto dto = new TournamentDetailsDto();
+        dto.setId(tournament.getId());
+        dto.setName(tournament.getName());
+        dto.setDate(tournament.getDate());
+        dto.setPlace(tournament.getPlace());
+        dto.setImageUrl(tournament.getImageUrl());
+        dto.setCurrentNumberOfParticipants(tournament.getCurrentNumberOfParticipants());
+        dto.setMaxNumberOfTeams(tournament.getMaxNumberOfTeams());
+        dto.setSport(tournament.getSport().getName());
+        dto.setInscriptionLimitDate(tournament.getInscriptionLimitDate());
+        dto.setFormat(tournament.getFormat());
+        dto.setPrivacy(tournament.getPrivacy());
         return dto;
     }
 }
